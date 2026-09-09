@@ -1,218 +1,538 @@
 ---
-# This title is used for the browser tab and the link-preview card (see the
-# "description" and "thumbnail" keys below). The title displayed at the top of
-# the page is set separately, on the <Header> component in the body.
-title: Academic Project Page Template
-
-# The color theme of the page. Defaults to "device" (the preference set in the user's brower or operating system). Setting this to "light" or "dark" will override the user's preference. This is useful if your figures only look good in one theme.
+title: EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis
 theme: device
-
-# This is the icon that appears in the user's browser tab. To customize, change the favicon.svg file in /public/, or add your own file to /public/ and change the filename here.
 favicon: favicon.svg
-
-# These keys are optional. If a link to your project page is in a Google search result, text message, or social media post, it will often appear as a "link preview card" based on its title, description, favicon, and thumbnail. After you publish your page, you can double check that these previews look right using [this tool](https://linkpreview.xyz/)
-description: Simple project page template for your research paper, built with Astro and Tailwind
+description: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis
 thumbnail: screenshot-light.png
 ---
 
 import Header from "./components/Header.astro";
-import Video from "./components/Video.astro";
+import PaperHero from "./components/PaperHero.astro";
+import PaperSection from "./components/PaperSection.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
-import SmallCaps from "./components/SmallCaps.astro";
 import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
-import ModelViewer from "./components/ModelViewer.astro"
-import TwoColumns from "./components/TwoColumns.astro";
-import YouTubeVideo from "./components/YouTubeVideo.astro";
+import PaperComparison from "./components/PaperComparison.astro";
+import ResultGallery from "./components/ResultGallery.astro";
+import ResultCard from "./components/ResultCard.astro";
+import MetricTable from "./components/MetricTable.astro";
+import VideoDemo from "./components/VideoDemo.astro";
 import Carousel from "./components/Carousel.astro";
 import CarouselSlide from "./components/CarouselSlide.astro";
+import TwoColumns from "./components/TwoColumns.astro";
+import YouTubeVideo from "./components/YouTubeVideo.astro";
+import ModelViewer from "./components/ModelViewer.astro";
 import Wide from "./components/Wide.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
-import { Comparison } from "./components/Comparison.tsx";
 
-import outside from "./assets/outside.mp4";
-import dogsDiffc from "./assets/dogs-diffc.png"
-import dogsTrue from "./assets/dogs-true.png"
-import dogsMsillm from "@/assets/dogs-msillm.jpg"
+import overview from "./assets/paper/overview.png";
+import method from "./assets/paper/method.png";
+import phantomCbct from "./assets/paper/phantom/cbct.png";
+import phantomCt from "./assets/paper/phantom/ct.png";
+import phantomSct from "./assets/paper/phantom/sct.png";
+import phantomComparison from "./assets/paper/phantom/comparison.png";
+import clinicalCbct from "./assets/paper/clinical/cbct.png";
+import clinicalCt from "./assets/paper/clinical/ct.png";
+import clinicalSct from "./assets/paper/clinical/sct.png";
+import huProfile from "./assets/paper/clinical/hu-profile.png";
+
+<!--
+  ================================================================
+  EASY EDITING GUIDE
+  ================================================================
+
+  You normally only need to edit:
+    1. The author information in <Header>
+    2. The text below
+    3. The images inside src/assets/paper/
+
+  Replace the placeholder PNG files with your real figures using
+  the same filenames. The page will update automatically.
+
+  Optional features are near the bottom:
+    - comparison slider
+    - carousel
+    - tabs
+    - video
+    - YouTube
+    - 3D model
+    - LaTeX
+    - code blocks
+  ================================================================
+-->
 
 <Header
   title="EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis"
-  conference="Conference Name"
   authors={[
-    {
-      name: "Alzahra Altalib",
-      url: " ",
-      institution: "University of Dundee, UK",
-      notes: ["1", "2"],
-    },
-    { name: "Chunhui Li", institution: "University of Dundee, UK", notes: ["1"] },
-    { name: "Haytham Al Ewaidat", institution: "Jordan University of Science and Technology", notes: ["2"] },
-    { name: " Khaled Alawneh", institution: "Jordan University of Science and Technology", notes: ["2"] },
+    { name: "Alzahra Altalib", notes: ["1", "2"] },
+    { name: "Chunhui Li", notes: ["1"] },
+    { name: "Haytham Al Ewaidat", notes: ["2"] },
+    { name: "Khaled Alawneh", notes: ["2"] },
+    { name: "Ahmad Qendel", notes: ["3"] },
+    { name: "Alessandro Perelli", notes: ["4"] },
   ]}
-  notes={[
-    { symbol: "*", text: "author note one" },
-    { symbol: "†", text: "author note two" },
+  affiliations={[
+    { symbol: "1", text: "School of Science and Engineering, University of Dundee, UK" },
+    { symbol: "2", text: "Faculty of Applied Sciences, Jordan University of Science and Technology" },
+    { symbol: "3", text: "Experia Healthcare, Jordan" },
+    { symbol: "4", text: "School of Cardiovascular and Metabolic Health, University of Glasgow, UK" },
   ]}
   links={[
-    { name: "Paper", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:file-pdf-2-line" },
-    { name: "Code", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:github-line" },
-    { name: "arXiv", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "academicons:arxiv" },
-    { name: "Slides", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:slideshow-2-line" },
+    {
+      name: "Paper",
+      url: "https://arxiv.org/abs/2605.20470",
+      icon: "ri:file-pdf-2-line",
+    },
+    {
+      name: "arXiv",
+      url: "https://arxiv.org/abs/2605.20470",
+      icon: "academicons:arxiv",
+    },
   ]}
->
-  {/*
-    Optionally place a cover image or video behind the header. Import the
-    asset (from src/assets/, so images are optimized) and pass it through the
-    "background" slot using the Picture or Video component:
+/>
 
-      <Picture slot="background" src={cover} alt="" />
-      <Video slot="background" src={outside} controls={false} />
-  */}
-  <Picture slot="background" src={dogsTrue} alt="" priority />
-</Header>
+<PaperHero
+  image={overview}
+  alt="Overview of the EPC-3D-Diff framework"
+  caption="EPC-3D-Diff combines conditional 3D latent diffusion with a projection-domain equivariance constraint derived from CT acquisition physics."
+/>
 
 <HighlightedSection>
 
-## Abstract
+## TL;DR
 
-Cone-beam CT (CBCT) is routinely acquired during radiotherapy for patient setup, but its quantitative reliability is degraded by scatter, noise, and reconstruction artifacts, limiting Hounsfield Unit (HU) accuracy. We propose EPC-3D-Diff, a novel conditional 3D latent diffusion framework for volumetric CBCT to CT synthesis that introduces a projection domain equivariance loss derived from acquisition physics. Unlike common image domain equivariance, we exploit the fact that an in plane rotation of the volume corresponds to an angular shift in its projections. During training, we enforce this relationship by forward projecting rotated synthesized CT volumes and matching them to appropriately angle shifted projections of the paired target CT, yielding a physics consistent equivariance constraint integrated into the diffusion objective. To capture full 3D context efficiently, conditional diffusion is performed in a compact latent space learnt by a lightweight 3D autoencoder, preserving axial depth while downsampling in plane resolution for stable training. We validate on a paired head CBCT/CT phantom dataset, including repeat scans, and paired clinical data using patient wise splits, and perform single and mixed domain training, ablations, and comparisons with diffusion and CycleGAN. EPC-3D-Diff generalizes well and achieved substantial improvements, +7.4 dB (phantom) and +1.8 dB (clinical data) in PSNR compared to state of the art methods, alongside improved SSIM and HU accuracy, within tissue boundaries. Overall, EPC-3D-Diff improves robustness and physics consistency, supporting HU aware synthesis for downstream radiotherapy workflows.
+**EPC-3D-Diff** is a conditional 3D latent diffusion framework for
+CBCT-to-CT synthesis.
+
+Its central idea is to enforce **projection-domain rotational
+equivariance** during training: an in-plane rotation of the generated
+volume should correspond to the appropriate angular shift in its
+projections.
+
+The model performs diffusion in a compact learned 3D latent space,
+while the physics-based constraint encourages anatomically and
+measurement-consistent synthetic CT.
 
 </HighlightedSection>
 
-## Visuals
+<PaperSection title="Abstract">
 
-### Image
+Cone-beam CT (CBCT) is routinely acquired during radiotherapy for
+patient setup, but its quantitative reliability is degraded by
+scatter, noise, and reconstruction artifacts, limiting Hounsfield
+Unit (HU) accuracy.
 
-Use the `Picture` component to display images. If you have a figure in PDF format, you can pass in its path as the `src` prop and it will be converted into a web-friendly image automatically.
+We propose **EPC-3D-Diff**, a conditional 3D latent diffusion
+framework for volumetric CBCT-to-CT synthesis that introduces a
+projection-domain equivariance loss derived from acquisition
+physics.
 
-<Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
+The model is evaluated on paired head CBCT/CT phantom data and
+paired clinical data, including single-domain and mixed-domain
+training, ablations, and comparisons with CycleGAN and conditional
+diffusion.
 
-### Video
+</PaperSection>
 
-<Video src={outside} />
+<PaperSection title="Why CBCT → CT?">
 
-### Wide visual
+CBCT is widely used for image-guided radiotherapy, but scatter,
+beam hardening, truncation, detector effects, and reconstruction
+limitations can reduce HU accuracy and soft-tissue fidelity.
 
-I constrained the maximum width of the text column to make sure it's readable even when the screen is wide. But images and other visuals should "break out" and take up more horizontal space: for this, try wrapping them in the `Wide` component.
+The goal is to learn a mapping
+
+$$
+x_{\mathrm{CBCT}}
+\longrightarrow
+\hat{x}_{\mathrm{CT}}
+$$
+
+that preserves anatomy while improving quantitative CT fidelity.
+
+</PaperSection>
+
+<PaperSection title="Method">
 
 <Wide>
-  <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
+  <Picture src={method} alt="EPC-3D-Diff methodology" />
 </Wide>
 
-### Figure with caption
+The framework contains three main ideas:
 
-Wrap a visual in a `Figure` component to add a caption.
+1. **Conditional 3D latent diffusion** for volumetric synthesis.
+2. **A lightweight 3D autoencoder** that reduces the spatial
+   resolution of the diffusion representation while preserving
+   axial depth.
+3. **Projection-equivariant physics consistency** derived from
+   the rotational symmetry of the CT acquisition operator.
 
-<Figure>
-  <Picture slot="figure" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Fragment slot="caption">A photo of two dogs running side-by-side in shallow water, lossily compressed using the [DiffC algorithm](https://jeremyiv.github.io/diffc-project-page/).</Fragment>
-</Figure>
+</PaperSection>
 
-### Comparison slider
+<PaperSection title="Latent Diffusion">
 
-Use the `Comparison` component to compare two visuals with an interactive slider.
+Let $\mathcal{E}$ and $\mathcal{D}$ denote the encoder and decoder.
+The CT and CBCT volumes are mapped into latent representations:
 
-<Comparison client:idle >
-  <Picture slot="itemOne" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Picture slot="itemTwo" src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-</Comparison>
+$$
+z_0 = \mathcal{E}_{\psi}(x_0),
+\qquad
+z_c = \mathcal{E}_{\psi}(x_c).
+$$
 
-### Tab panels
+The diffusion process is performed in the latent space:
 
-Tab panels are a great way to display a labeled collection of related visuals without taking up too much space.
+$$
+z_t =
+\sqrt{\bar{\alpha}_t}z_0
++
+\sqrt{1-\bar{\alpha}_t}\epsilon,
+\qquad
+\epsilon\sim\mathcal{N}(0,I).
+$$
 
-<Tabs defaultValue="true">
+A conditional 3D U-Net predicts the injected noise using the noisy
+latent, timestep, and CBCT latent representation.
+
+</PaperSection>
+
+<PaperSection title="Projection-Equivariant Physics Consistency">
+
+For an in-plane rotation $R_{\phi}$, the circular acquisition
+geometry gives the approximate equivariance relationship
+
+$$
+A_0(R_{\phi}\hat{x}_0)(\eta)
+=
+A_0(\hat{x}_0)(\eta-\phi).
+$$
+
+This motivates the projection-domain loss
+
+$$
+\mathcal{L}_{\mathrm{eq}}
+=
+\sum_{i=1}^{N_{\phi}}
+\left\|
+T_{\phi_i}(y_0)
+-
+A_0R_{\phi_i}(\hat{x}_0)
+\right\|_2^2.
+$$
+
+The total training objective combines the diffusion objective,
+voxel-level reconstruction, edge and Laplacian losses, and the
+physics-consistency term:
+
+$$
+\mathcal{L} =
+\mathcal{L}_{\mathrm{DDPM}}
++
+\lambda_1\mathcal{L}_{L_1}
++
+\lambda_2\mathcal{L}_{\mathrm{edge}}
++
+\lambda_3\mathcal{L}_{\mathrm{lap}}
++
+\lambda_{\mathrm{eq}}\mathcal{L}_{\mathrm{eq}}.
+$$
+
+The important distinction is that the physics operator is used
+during training; inference does not require projection operations.
+
+</PaperSection>
+
+<PaperSection title="Architecture">
+
+<Tabs defaultValue="overview">
+
   <TabsList>
-    <TabsTrigger value="true">Ground truth</TabsTrigger>
-    <TabsTrigger value="diffc">DiffC (Flux-dev)</TabsTrigger>
-    <TabsTrigger value="msillm">MS-ILLM</TabsTrigger>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="autoencoder">3D Autoencoder</TabsTrigger>
+    <TabsTrigger value="diffusion">Conditional U-Net</TabsTrigger>
   </TabsList>
-  <TabsContent value="true">
-    <Picture
-      src={dogsTrue}
-      alt="True photo of two dogs running side-by-side in shallow water"
-    />
+
+  <TabsContent value="overview">
+    <Picture src={method} alt="Overall EPC-3D-Diff architecture" />
   </TabsContent>
-  <TabsContent value="diffc">
-    <Picture
-      src={dogsDiffc}
-      alt="Photo of two running dogs, lossily compressed using the DiffC algorithm"
-    />
+
+  <TabsContent value="autoencoder">
+    The lightweight 3D encoder and decoder use residual blocks,
+    group normalization and SiLU activations. The encoder downsamples
+    in-plane resolution while preserving axial depth.
   </TabsContent>
-  <TabsContent value="msillm">
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
+
+  <TabsContent value="diffusion">
+    The conditional 3D U-Net operates on the learned latent
+    representation and receives the CBCT latent as conditioning.
   </TabsContent>
+
 </Tabs>
 
-### Carousel
+</PaperSection>
 
-A carousel is another useful pattern for a collection of visuals that don't necessarily have meaningful labels.
+<PaperSection title="Inference">
 
-<Carousel>
-  <CarouselSlide>
-    <Picture src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
-  </CarouselSlide>
-</Carousel>
+At test time, only the CBCT input is available.
 
-## Two columns
+```text
+CBCT
+  │
+  ▼
+3D encoder
+  │
+  ▼
+CBCT latent
+  │
+  ▼
+Conditional DDIM sampling
+  │
+  ▼
+Predicted CT latent
+  │
+  ▼
+3D decoder
+  │
+  ▼
+Synthetic CT
+```
 
-Use the two columns component to display two columns of content. In this example, the first column contains a YouTube video embed and the second column contains an interactive 3D model viewer. By default, they display side by side, but if the screen is narrow enough (for example, on mobile), they're arranged vertically.
+The paper uses deterministic DDIM sampling with 100 steps for
+accelerated inference.
 
-<TwoColumns>
-  <YouTubeVideo slot="left" videoId="wjZofJX0v4M" />
-  <ModelViewer slot="right" src="/BoxVertexColors.glb" alt="A cube colored with a rainbow gradient" />
-</TwoColumns>
+</PaperSection>
 
-## $\LaTeX$
+<PaperSection title="Qualitative Results">
 
-You can also add $\LaTeX$ formulas, rendered during the build process using [$\KaTeX$](https://katex.org/) so they're quick to load for visitors of your project page. You can write them inline, like this: $a^2 + b^2 = c^2$. Or, you can write them as a block:
+### Phantom example
 
-$$
-\int_a^b f(x) dx
-$$
+<PaperComparison
+  before={phantomCbct}
+  after={phantomSct}
+  beforeAlt="CBCT phantom example"
+  afterAlt="EPC-3D-Diff synthetic CT phantom example"
+  beforeLabel="CBCT"
+  afterLabel="EPC-3D-Diff"
+/>
 
-## Citation
+For your final version, replace the placeholder images in
+`src/assets/paper/phantom/` with the corresponding slices from
+your paper.
 
-If you copy your bibliography into `./bibliography.bib`, you can cite papers using their BibTeX keys, and they'll be automatically formatted and included in the bibliography section at the end. For example: [@vaswani2017attention]. Note that these citations are distinct from footnotes[^mynote], which show up in a separate section if you use them.
+</PaperSection>
 
-[^mynote]: On the web, they should really be called "endnotes", since each page constitutes a full document.
+<PaperSection title="Clinical Results">
 
-## Table
+<ResultGallery
+  images={[
+    { src: clinicalCbct, alt: "Clinical CBCT", label: "CBCT" },
+    { src: clinicalCt, alt: "Clinical reference CT", label: "Reference CT" },
+    { src: clinicalSct, alt: "Clinical synthetic CT", label: "EPC-3D-Diff" },
+    { src: huProfile, alt: "Clinical HU profile", label: "HU profile" },
+  ]}
+/>
 
-Add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables):
+The paper evaluates clinical data using patient-wise splits and
+reports improved PSNR, SSIM and HU agreement relative to the
+comparison methods.
 
-| Model | Accuracy | F1 score | Training time (hours) |
-| :--- | :---: | :---: | :---: |
-| BERT-base | 0.89 | 0.87 | 4.5 |
-| RoBERTa-large | 0.92 | 0.91 | 7.2 |
-| DistilBERT | 0.86 | 0.84 | 2.1 |
-| XLNet | 0.90 | 0.89 | 6.8 |
+</PaperSection>
 
-## BibTeX citation
+<PaperSection title="Quantitative Results">
 
-Displaying the BibTeX entry for your paper in a code block makes it easy to copy and paste.
+<div class="not-prose grid gap-4 sm:grid-cols-3">
+  <ResultCard
+    label="Single-domain PSNR"
+    value="30.99 dB"
+    detail="NWH phantom"
+  />
+  <ResultCard
+    label="Mixed-domain PSNR"
+    value="38.44 dB"
+    detail="NWH test set"
+  />
+  <ResultCard
+    label="Mixed-domain SSIM"
+    value="0.99"
+    detail="NWH test set"
+  />
+</div>
+
+<MetricTable
+  highlight="EPC-3D-Diff"
+  columns={[
+    { key: "method", label: "Method" },
+    { key: "psnr", label: "PSNR (dB)", align: "right" },
+    { key: "ssim", label: "SSIM", align: "right" },
+    { key: "mae", label: "MAE", align: "right" },
+  ]}
+  rows={[
+    { method: "CBCT - CT", psnr: "14.41 ± 0.35", ssim: "0.26 ± 0.07", mae: "−22.30 ± 2.80" },
+    { method: "CycleGAN", psnr: "25.85 ± 7.82", ssim: "0.82 ± 0.09", mae: "−40.67 ± 2.83" },
+    { method: "C-DDPM", psnr: "30.77 ± 4.31", ssim: "0.91 ± 0.05", mae: "−21.27 ± 0.20" },
+    { method: "EPC-3D-Diff", psnr: "30.99 ± 4.21", ssim: "0.92 ± 0.05", mae: "−21.34 ± 0.20" },
+  ]}
+/>
+
+The mixed-domain EPC-3D-Diff setting reaches 38.44 ± 2.28 dB
+PSNR and 0.99 ± 0.01 SSIM on the NWH phantom test set.
+
+</PaperSection>
+
+<PaperSection title="Mixed-Domain Generalization">
+
+<HighlightedSection>
+
+### 38.44 dB PSNR · 0.99 SSIM
+
+Training on both NWH and JUST improves the NWH test performance
+from 30.99 dB / 0.92 SSIM to 38.44 dB / 0.99 SSIM, illustrating
+the benefit of domain diversity.
+
+</HighlightedSection>
+
+The paper also reports approximately a 7 dB improvement over
+C-DDPM in the multiple-domain setting.
+
+</PaperSection>
+
+<PaperSection title="HU Accuracy">
+
+<Wide>
+  <Picture src={huProfile} alt="Hounsfield Unit profile comparison" />
+</Wide>
+
+HU profiles are used to assess whether synthetic CT preserves
+quantitative tissue characteristics rather than only visual
+appearance.
+
+</PaperSection>
+
+<PaperSection title="Training and Inference Cost">
+
+The reported implementation uses two NVIDIA A5000 GPUs, a latent
+autoencoder with $C=4$, a conditional 3D U-Net with base width
+64, 1000 diffusion steps during training, and 2500 training epochs.
+
+Projection-domain equivariance is applied every 10 epochs using
+two random rotations per sample.
+
+At inference, 100-step DDIM sampling is used. No projection
+operations are required during inference, and the reported
+runtime is approximately **58 seconds per patient**.
+
+</PaperSection>
+
+<PaperSection title="Ablations and Design Choices">
+
+The main design choices can be presented visually rather than
+reproducing the full paper:
+
+```text
+Conditional diffusion
+        │
+        ▼
+3D latent representation
+        │
+        ▼
+Image-domain structural losses
+        │
+        ▼
+Projection-domain equivariance
+        │
+        ▼
+EPC-3D-Diff
+```
+
+This makes the project page easier to scan than a direct copy of
+the PDF structure.
+
+</PaperSection>
+
+<!-- ============================================================
+Optional media. Uncomment when you have your own files.
+============================================================= -->
+
+<!--
+<PaperSection title="Video">
+
+  <VideoDemo
+    src={demoVideo}
+    title="EPC-3D-Diff inference demonstration"
+  />
+
+</PaperSection>
+-->
+
+<!--
+<PaperSection title="YouTube">
+
+  <YouTubeVideo videoId="YOUR_VIDEO_ID" />
+
+</PaperSection>
+-->
+
+<!--
+<PaperSection title="3D Visualization">
+
+  <ModelViewer
+    src="/your-model.glb"
+    alt="Interactive 3D visualization"
+  />
+
+</PaperSection>
+-->
+
+<PaperSection title="Code">
+
+Once your implementation is publicly available, replace this
+small example with the real API or training command.
+
+```python
+model = EPC3DDiff(
+    condition="CBCT",
+    latent_diffusion=True,
+    physics_consistency=True,
+)
+
+synthetic_ct = model.generate(cbct)
+```
+
+</PaperSection>
+
+<PaperSection title="Conclusion">
+
+We presented **EPC-3D-Diff**, a projection-equivariant 3D
+conditional latent diffusion framework for CBCT-to-CT synthesis.
+
+The central contribution is to use acquisition physics as a
+structural inductive bias during training. Rotational consistency
+is enforced in the projection domain, while diffusion is performed
+in a compact 3D latent space.
+
+The reported experiments show improved fidelity and robustness
+across phantom and clinical data, including mixed-domain training.
+
+</PaperSection>
+
+<PaperSection title="BibTeX">
 
 ```bibtex
-@misc{roman2024academic,
-  author = "{Roman Hauksson}",
-  title = "Academic Project Page Template",
-  year = "2024",
-  howpublished = "\url{https://research-template.roman.technology}",
+@misc{altalib2026epc3ddiff,
+  title         = {EPC-3D-Diff: Equivariant Physics Consistent
+                   Conditional 3D Latent Diffusion for CBCT to CT Synthesis},
+  author        = {Altalib, Alzahra and
+                   Li, Chunhui and
+                   Ewaidat, Haytham Al and
+                   Alawneh, Khaled and
+                   Qendel, Ahmad and
+                   Perelli, Alessandro},
+  year          = {2026},
+  eprint        = {2605.20470},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2605.20470}
 }
 ```
 
-## Bibliography
-
-[^ref]
+</PaperSection>

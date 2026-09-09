@@ -1,0 +1,37 @@
+---
+import { Picture as AstroPicture } from "astro:assets";
+
+type GalleryImage = {
+  src: ImageMetadata;
+  alt: string;
+  label?: string;
+};
+
+interface Props {
+  images: GalleryImage[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="not-prose grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    images.map((image) => (
+      <figure class="m-0">
+        <AstroPicture
+          src={image.src}
+          alt={image.alt}
+          layout="constrained"
+          formats={["avif"]}
+          fit="contain"
+          class="w-full rounded-xl"
+        />
+        {image.label && (
+          <figcaption class="mt-2 text-center text-sm text-zinc-600 dark:text-zinc-400">
+            {image.label}
+          </figcaption>
+        )}
+      </figure>
+    ))
+  }
+</div>

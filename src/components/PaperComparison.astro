@@ -1,0 +1,40 @@
+---
+import Picture from "./Picture.astro";
+import { Comparison } from "./Comparison.tsx";
+
+interface Props {
+  before: ImageMetadata;
+  after: ImageMetadata;
+  beforeAlt: string;
+  afterAlt: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+
+const {
+  before,
+  after,
+  beforeAlt,
+  afterAlt,
+  beforeLabel = "Before",
+  afterLabel = "After",
+} = Astro.props;
+---
+
+<div class="not-prose my-8">
+  <Comparison client:idle>
+    <div slot="itemOne" class="relative">
+      <Picture src={before} alt={beforeAlt} />
+      <span class="absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1 text-sm font-medium text-white">
+        {beforeLabel}
+      </span>
+    </div>
+
+    <div slot="itemTwo" class="relative">
+      <Picture src={after} alt={afterAlt} />
+      <span class="absolute right-3 top-3 rounded-full bg-black/70 px-3 py-1 text-sm font-medium text-white">
+        {afterLabel}
+      </span>
+    </div>
+  </Comparison>
+</div>
