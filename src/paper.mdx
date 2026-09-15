@@ -1,218 +1,293 @@
 ---
-# This title is used for the browser tab and the link-preview card (see the
-# "description" and "thumbnail" keys below). The title displayed at the top of
-# the page is set separately, on the <Header> component in the body.
-title: Academic Project Page Template
-
-# The color theme of the page. Defaults to "device" (the preference set in the user's brower or operating system). Setting this to "light" or "dark" will override the user's preference. This is useful if your figures only look good in one theme.
-theme: device
-
-# This is the icon that appears in the user's browser tab. To customize, change the favicon.svg file in /public/, or add your own file to /public/ and change the filename here.
-favicon: favicon.svg
-
-# These keys are optional. If a link to your project page is in a Google search result, text message, or social media post, it will often appear as a "link preview card" based on its title, description, favicon, and thumbnail. After you publish your page, you can double check that these previews look right using [this tool](https://linkpreview.xyz/)
-description: Simple project page template for your research paper, built with Astro and Tailwind
-thumbnail: screenshot-light.png
+title: "EPC-3D-Diff: Equivariant Physics-Consistent Conditional 3D Latent Diffusion for CBCT-to-CT Synthesis"
+description: "A physics-informed 3D latent diffusion model that turns cone-beam CT scans into CT-quality volumes for radiotherapy, using a projection-domain equivariance loss derived from acquisition physics."
+favicon: "favicon.svg"
+theme: "device"
 ---
 
 import Header from "./components/Header.astro";
-import Video from "./components/Video.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
-import SmallCaps from "./components/SmallCaps.astro";
-import Figure from "./components/Figure.astro";
-import Picture from "./components/Picture.astro";
-import ModelViewer from "./components/ModelViewer.astro"
-import TwoColumns from "./components/TwoColumns.astro";
-import YouTubeVideo from "./components/YouTubeVideo.astro";
-import Carousel from "./components/Carousel.astro";
-import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
-import { Comparison } from "./components/Comparison.tsx";
-
-import outside from "./assets/outside.mp4";
-import dogsDiffc from "./assets/dogs-diffc.png"
-import dogsTrue from "./assets/dogs-true.png"
-import dogsMsillm from "@/assets/dogs-msillm.jpg"
+import TwoColumns from "./components/TwoColumns.astro";
 
 <Header
-  title="EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis"
-  conference="Conference Name"
+  title="EPC-3D-Diff"
+  conference="arXiv preprint, 2026"
   authors={[
     {
       name: "Alzahra Altalib",
-      url: " ",
-      institution: "University of Dundee, UK",
-      notes: ["1", "2"],
+      url: "mailto:2600129@dundee.ac.uk",
+      institution: "University of Dundee · Jordan University of Science and Technology",
+      notes: ["1,2"],
     },
-    { name: "Chunhui Li", institution: "University of Dundee, UK", notes: ["1"] },
-    { name: "Haytham Al Ewaidat", institution: "Jordan University of Science and Technology", notes: ["2"] },
-    { name: " Khaled Alawneh", institution: "Jordan University of Science and Technology", notes: ["2"] },
+    {
+      name: "Chunhui Li",
+      institution: "University of Dundee",
+      notes: ["1"],
+    },
+    {
+      name: "Haytham Al Ewaidat",
+      institution: "Jordan University of Science and Technology",
+      notes: ["2"],
+    },
+    {
+      name: "Khaled Alawneh",
+      institution: "Jordan University of Science and Technology",
+      notes: ["2"],
+    },
+    {
+      name: "Ahmad Qendel",
+      institution: "Experia Healthcare, Jordan",
+      notes: ["3"],
+    },
+    {
+      name: "Alessandro Perelli",
+      url: "https://www.gla.ac.uk/schools/cardiovascular-metabolic-health/staff/alessandroperelli/",
+      institution: "University of Glasgow",
+      notes: ["4"],
+    },
   ]}
   notes={[
-    { symbol: "*", text: "author note one" },
-    { symbol: "†", text: "author note two" },
+    { symbol: "1", text: "School of Science and Engineering, University of Dundee, UK" },
+    { symbol: "2", text: "Faculty of Applied Sciences, Jordan University of Science and Technology" },
+    { symbol: "3", text: "Experia Healthcare, Jordan" },
+    { symbol: "4", text: "School of Cardiovascular and Metabolic Health, University of Glasgow, UK" },
   ]}
   links={[
-    { name: "Paper", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:file-pdf-2-line" },
-    { name: "Code", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:github-line" },
-    { name: "arXiv", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "academicons:arxiv" },
-    { name: "Slides", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:slideshow-2-line" },
+    { name: "Paper (PDF)", url: "https://arxiv.org/pdf/2605.20470", icon: "ri:file-pdf-2-line" },
+    { name: "arXiv", url: "https://arxiv.org/abs/2605.20470", icon: "academicons:arxiv" },
+    { name: "BibTeX", url: "#cite", icon: "ri:double-quotes-l" },
   ]}
->
-  {/*
-    Optionally place a cover image or video behind the header. Import the
-    asset (from src/assets/, so images are optimized) and pass it through the
-    "background" slot using the Picture or Video component:
-
-      <Picture slot="background" src={cover} alt="" />
-      <Video slot="background" src={outside} controls={false} />
-  */}
-  <Picture slot="background" src={dogsTrue} alt="" priority />
-</Header>
+/>
 
 <HighlightedSection>
 
 ## Abstract
 
-Cone-beam CT (CBCT) is routinely acquired during radiotherapy for patient setup, but its quantitative reliability is degraded by scatter, noise, and reconstruction artifacts, limiting Hounsfield Unit (HU) accuracy. We propose EPC-3D-Diff, a novel conditional 3D latent diffusion framework for volumetric CBCT to CT synthesis that introduces a projection domain equivariance loss derived from acquisition physics. Unlike common image domain equivariance, we exploit the fact that an in plane rotation of the volume corresponds to an angular shift in its projections. During training, we enforce this relationship by forward projecting rotated synthesized CT volumes and matching them to appropriately angle shifted projections of the paired target CT, yielding a physics consistent equivariance constraint integrated into the diffusion objective. To capture full 3D context efficiently, conditional diffusion is performed in a compact latent space learnt by a lightweight 3D autoencoder, preserving axial depth while downsampling in plane resolution for stable training. We validate on a paired head CBCT/CT phantom dataset, including repeat scans, and paired clinical data using patient wise splits, and perform single and mixed domain training, ablations, and comparisons with diffusion and CycleGAN. EPC-3D-Diff generalizes well and achieved substantial improvements, +7.4 dB (phantom) and +1.8 dB (clinical data) in PSNR compared to state of the art methods, alongside improved SSIM and HU accuracy, within tissue boundaries. Overall, EPC-3D-Diff improves robustness and physics consistency, supporting HU aware synthesis for downstream radiotherapy workflows.
+Cone-beam CT (CBCT) is routinely acquired during radiotherapy for patient setup, but its quantitative reliability is degraded by scatter, noise, and reconstruction artifacts, limiting Hounsfield Unit (HU) accuracy. We propose **EPC-3D-Diff**, a novel conditional 3D latent diffusion framework for volumetric CBCT-to-CT synthesis that introduces a **projection-domain equivariance loss** derived from acquisition physics. Unlike common image-domain equivariance, we exploit the fact that an in-plane rotation of the volume corresponds to an angular shift in its projections. During training, we enforce this relationship by forward-projecting rotated synthesized CT volumes and matching them to appropriately angle-shifted projections of the paired target CT, yielding a physics-consistent equivariance constraint integrated into the diffusion objective. To capture full 3D context efficiently, conditional diffusion is performed in a compact latent space learnt by a lightweight 3D autoencoder, preserving axial depth while downsampling in-plane resolution for stable training.
+
+We validate on a paired head CBCT/CT phantom dataset, including repeat scans, and paired clinical data using patient-wise splits, and perform single- and mixed-domain training, ablations, and comparisons with diffusion and CycleGAN baselines. EPC-3D-Diff generalizes well and achieves substantial improvements — **+7.4 dB (phantom)** and **+1.8 dB (clinical data)** in PSNR compared to state-of-the-art methods — alongside improved SSIM and HU accuracy within tissue boundaries. Overall, EPC-3D-Diff improves robustness and physics consistency, supporting HU-aware synthesis for downstream radiotherapy workflows.
 
 </HighlightedSection>
 
-## Visuals
+## Why this matters
 
-### Image
-
-Use the `Picture` component to display images. If you have a figure in PDF format, you can pass in its path as the `src` prop and it will be converted into a web-friendly image automatically.
-
-<Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-
-### Video
-
-<Video src={outside} />
-
-### Wide visual
-
-I constrained the maximum width of the text column to make sure it's readable even when the screen is wide. But images and other visuals should "break out" and take up more horizontal space: for this, try wrapping them in the `Wide` component.
-
-<Wide>
-  <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-</Wide>
-
-### Figure with caption
-
-Wrap a visual in a `Figure` component to add a caption.
-
-<Figure>
-  <Picture slot="figure" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Fragment slot="caption">A photo of two dogs running side-by-side in shallow water, lossily compressed using the [DiffC algorithm](https://jeremyiv.github.io/diffc-project-page/).</Fragment>
-</Figure>
-
-### Comparison slider
-
-Use the `Comparison` component to compare two visuals with an interactive slider.
-
-<Comparison client:idle >
-  <Picture slot="itemOne" src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  <Picture slot="itemTwo" src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-</Comparison>
-
-### Tab panels
-
-Tab panels are a great way to display a labeled collection of related visuals without taking up too much space.
-
-<Tabs defaultValue="true">
-  <TabsList>
-    <TabsTrigger value="true">Ground truth</TabsTrigger>
-    <TabsTrigger value="diffc">DiffC (Flux-dev)</TabsTrigger>
-    <TabsTrigger value="msillm">MS-ILLM</TabsTrigger>
-  </TabsList>
-  <TabsContent value="true">
-    <Picture
-      src={dogsTrue}
-      alt="True photo of two dogs running side-by-side in shallow water"
-    />
-  </TabsContent>
-  <TabsContent value="diffc">
-    <Picture
-      src={dogsDiffc}
-      alt="Photo of two running dogs, lossily compressed using the DiffC algorithm"
-    />
-  </TabsContent>
-  <TabsContent value="msillm">
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
-  </TabsContent>
-</Tabs>
-
-### Carousel
-
-A carousel is another useful pattern for a collection of visuals that don't necessarily have meaningful labels.
-
-<Carousel>
-  <CarouselSlide>
-    <Picture src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-  </CarouselSlide>
-  <CarouselSlide>
-    <Picture
-      src={dogsMsillm}
-      alt="Photo of two running dogs, lossily compressed using MS-ILLM"
-    />
-  </CarouselSlide>
-</Carousel>
-
-## Two columns
-
-Use the two columns component to display two columns of content. In this example, the first column contains a YouTube video embed and the second column contains an interactive 3D model viewer. By default, they display side by side, but if the screen is narrow enough (for example, on mobile), they're arranged vertically.
+CT provides the anatomical and electron-density information that radiotherapy planning and dose calculation depend on. CBCT is acquired at treatment time for patient setup because it's fast and low-dose, but scatter and cone-beam artifacts corrupt its Hounsfield Units — exactly the quantity dose calculations rely on. Turning daily CBCT into CT-quality volumes ("synthetic CT") would let clinics re-plan treatment using up-to-date anatomy, without an extra CT scan. The catch: most learned CBCT-to-CT methods are trained slice-by-slice or with generic image-domain regularizers, and nothing forces the output to stay consistent with how CT and CBCT scanners actually acquire data.
 
 <TwoColumns>
-  <YouTubeVideo slot="left" videoId="wjZofJX0v4M" />
-  <ModelViewer slot="right" src="/BoxVertexColors.glb" alt="A cube colored with a rainbow gradient" />
+<Fragment slot="left">
+
+**The core idea.** EPC-3D-Diff adds a training-time physics constraint that is specific to tomographic imaging: rotating a 3D volume in-plane is *equivalent* to angularly shifting its own projections. The model enforces this identity between its own synthesized output and the real CT acquisition geometry — not just between the output and a generic augmented copy of itself, which is what conventional image-domain equivariant imaging does.
+
+</Fragment>
+<Fragment slot="right">
+
+**Why 3D latent diffusion.** Working directly in voxel space at full resolution is memory-prohibitive in 3D. A lightweight 3D autoencoder compresses each volume into a compact latent (downsampling in-plane while preserving axial depth), and a conditional diffusion U-Net denoises in that latent space, conditioned on the encoded CBCT.
+
+</Fragment>
 </TwoColumns>
 
-## $\LaTeX$
+## Method overview
 
-You can also add $\LaTeX$ formulas, rendered during the build process using [$\KaTeX$](https://katex.org/) so they're quick to load for visitors of your project page. You can write them inline, like this: $a^2 + b^2 = c^2$. Or, you can write them as a block:
+<Wide>
+<svg viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto" role="img" aria-label="EPC-3D-Diff pipeline: a CBCT volume is encoded into a latent condition, a 3D conditional U-Net denoises a latent given that condition, a decoder reconstructs a synthetic CT, and a physics-consistent equivariance loss compares forward-projected, rotated synthetic-CT projections against angle-shifted real CT projections.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-zinc-500 dark:fill-zinc-400" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-blue-500" />
+    </marker>
+  </defs>
+
+  <rect x="10" y="55" width="120" height="60" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
+  <text x="70" y="80" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[15px] font-medium">CBCT</text>
+  <text x="70" y="99" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]">x_c</text>
+
+  <line x1="130" y1="85" x2="168" y2="85" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="170" y="55" width="120" height="60" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
+  <text x="230" y="80" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[15px] font-medium">Encoder</text>
+  <text x="230" y="99" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]">E_ψ</text>
+
+  <line x1="290" y1="85" x2="328" y2="85" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="309" y="72" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]">z_c</text>
+
+  <rect x="450" y="0" width="90" height="34" rx="8" class="fill-blue-50 dark:fill-blue-950 stroke-blue-300 dark:stroke-blue-800" stroke-width="1.5"/>
+  <text x="495" y="22" text-anchor="middle" class="fill-blue-700 dark:fill-blue-300 text-[13px]">z_t (noise)</text>
+  <line x1="495" y1="34" x2="495" y2="53" class="stroke-blue-400" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <rect x="335" y="55" width="220" height="80" rx="12" class="fill-blue-50 dark:fill-blue-950/40 stroke-blue-400 dark:stroke-blue-700" stroke-width="1.8"/>
+  <text x="445" y="88" text-anchor="middle" class="fill-blue-800 dark:fill-blue-200 text-[16px] font-semibold">3D Conditional U-Net</text>
+  <text x="445" y="108" text-anchor="middle" class="fill-blue-600 dark:fill-blue-300 text-[13px]">ε_θ(z_t, t, z_c)</text>
+
+  <line x1="555" y1="95" x2="593" y2="95" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="574" y="82" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]">ẑ_0</text>
+
+  <rect x="595" y="65" width="120" height="60" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
+  <text x="655" y="90" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[15px] font-medium">Decoder</text>
+  <text x="655" y="109" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]">D_ω</text>
+
+  <line x1="715" y1="95" x2="753" y2="95" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="755" y="65" width="130" height="60" rx="10" class="fill-emerald-50 dark:fill-emerald-950/40 stroke-emerald-400 dark:stroke-emerald-700" stroke-width="1.8"/>
+  <text x="820" y="90" text-anchor="middle" class="fill-emerald-800 dark:fill-emerald-300 text-[15px] font-semibold">sCT</text>
+  <text x="820" y="109" text-anchor="middle" class="fill-emerald-700 dark:fill-emerald-400 text-[13px]">x̂_0</text>
+
+  <line x1="820" y1="125" x2="820" y2="250" class="stroke-emerald-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="750" y="250" width="140" height="50" rx="8" class="fill-emerald-50 dark:fill-emerald-950/40 stroke-emerald-400 dark:stroke-emerald-700" stroke-width="1.5"/>
+  <text x="820" y="280" text-anchor="middle" class="fill-emerald-800 dark:fill-emerald-300 text-[13px] font-medium">Rotate R_φ</text>
+
+  <line x1="750" y1="275" x2="600" y2="275" class="stroke-emerald-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="450" y="250" width="150" height="50" rx="8" class="fill-emerald-50 dark:fill-emerald-950/40 stroke-emerald-400 dark:stroke-emerald-700" stroke-width="1.5"/>
+  <text x="525" y="272" text-anchor="middle" class="fill-emerald-800 dark:fill-emerald-300 text-[13px] font-medium">Forward-project</text>
+  <text x="525" y="288" text-anchor="middle" class="fill-emerald-700 dark:fill-emerald-400 text-[12px]">A_0</text>
+
+  <line x1="450" y1="275" x2="390" y2="275" class="stroke-emerald-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <circle cx="355" cy="275" r="34" class="fill-amber-50 dark:fill-amber-950/40 stroke-amber-500" stroke-width="2"/>
+  <text x="355" y="271" text-anchor="middle" class="fill-amber-800 dark:fill-amber-300 text-[13px] font-semibold">L_eq</text>
+  <text x="355" y="286" text-anchor="middle" class="fill-amber-700 dark:fill-amber-400 text-[10px]">equiv. loss</text>
+
+  <line x1="220" y1="275" x2="321" y2="275" class="stroke-amber-500" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="70" y="250" width="150" height="50" rx="8" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
+  <text x="145" y="272" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[13px] font-medium">Shift T_φ(y_0)</text>
+  <text x="145" y="288" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[11px]">rotated CT proj.</text>
+
+  <line x1="145" y1="250" x2="145" y2="176" class="stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="10" y="120" width="120" height="56" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="70" y="144" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[13px] font-medium">CT (train only)</text>
+  <text x="70" y="162" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]">x_0 → y_0</text>
+
+  <path d="M 355 241 C 355 190, 445 130, 445 137" fill="none" class="stroke-amber-500" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="470" y="200" text-anchor="middle" class="fill-amber-600 dark:fill-amber-400 text-[12px]">joins diffusion + raw-data-consistency loss</text>
+
+  <text x="500" y="335" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]" font-style="italic">
+    In-plane rotation of the volume ⇔ angular shift of its projections — enforced as a training-time consistency constraint.
+  </text>
+</svg>
+</Wide>
+
+Let $\mathbf{x}_0, \mathbf{x}_c \in \mathbb{R}^{N \times M \times S}$ denote the CT and CBCT aligned 3D volumes, and $\mathbf{A}_0$, $\mathbf{A}_c$ the discretised helical-CT and cone-beam forward operators. A lightweight 3D autoencoder $(E_\psi, D_\omega)$ compresses volumes into a latent space; a conditional 3D U-Net $\varepsilon_\theta$ is trained with a standard denoising-diffusion objective, conditioned on the encoded CBCT latent $z_c = E_\psi(\mathbf{x}_c)$.
+
+On top of this, the **projection-domain equivariance loss** exploits a simple geometric fact: rotating a volume by an in-plane angle $\varphi$ is equivalent to shifting its projections by $\varphi$ in the angular (view) coordinate. During training, the network's own denoised estimate $\hat{\mathbf{x}}_0$ is rotated by $R_\varphi$, forward-projected with $\mathbf{A}_0$, and compared against the angle-shifted projections $T_\varphi(\mathbf{y}_0)$ of the *paired ground-truth CT* — not a synthetic augmentation of the output itself:
 
 $$
-\int_a^b f(x) dx
+\mathcal{L}_{\text{eq}} = \big\| \mathbf{A}_0\, R_\varphi(\hat{\mathbf{x}}_0) - T_\varphi(\mathbf{y}_0) \big\|_2^2 , \qquad \mathbf{y}_0 = \mathbf{A}_0 \mathbf{x}_0 .
 $$
+
+This differs from conventional image-domain equivariant imaging [@chen2021equivariant], which only checks self-consistency between a network's output and its own transformed input, with no ground truth and no connection to the physical acquisition process. Anchoring the constraint in projection space, where rotation and angular shift are *exactly* equivalent by construction, ties training directly to how CT and CBCT data are actually acquired. $\mathcal{L}_{\text{eq}}$ is combined with the latent diffusion denoising loss and a raw-data-consistency term into the total training objective.
+
+## Datasets
+
+<TwoColumns>
+<Fragment slot="left">
+
+**Phantom (NWH).** A paired head CBCT/CT phantom dataset, including repeat scans across acquisitions, used to evaluate reconstruction fidelity under controlled, artifact-free ground truth.
+
+</Fragment>
+<Fragment slot="right">
+
+**Clinical (JUST).** Paired clinical head CBCT/CT data with patient-wise train/test splits, used to assess generalization from phantom to real anatomical variability, noise, and inter-patient differences.
+
+</Fragment>
+</TwoColumns>
+
+Models are evaluated under both **single-domain** training (trained and tested within one dataset) and **mixed-domain** training (trained jointly across phantom and clinical data), against CycleGAN [@liang2019generating] and conditional-DDPM [@peng2024cbctbased] baselines.
+
+## Results
+
+On the phantom test set, EPC-3D-Diff improves PSNR by **+7.4 dB** over the strongest baseline once trained in the mixed-domain regime, and matches or exceeds single-domain baselines even in the harder single-domain setting:
+
+<svg viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto max-w-xl mx-auto" role="img" aria-label="Bar chart of PSNR in decibels for CycleGAN, C-DDPM, and EPC-3D-Diff, each under single-domain and mixed-domain training, compared against uncorrected CBCT at 14.4 dB. EPC-3D-Diff under mixed-domain training reaches 38.4 dB, clearly ahead of all other bars.">
+  <line x1="60" y1="280" x2="580" y2="280" class="stroke-zinc-400 dark:stroke-zinc-600" stroke-width="1.5"/>
+  <line x1="60" y1="40" x2="60" y2="280" class="stroke-zinc-400 dark:stroke-zinc-600" stroke-width="1.5"/>
+
+  <g class="fill-zinc-400 dark:fill-zinc-500 text-[11px]">
+    <line x1="60" y1="280" x2="580" y2="280" class="stroke-zinc-200 dark:stroke-zinc-800"/>
+    <text x="50" y="284" text-anchor="end">0</text>
+    <line x1="60" y1="220" x2="580" y2="220" class="stroke-zinc-200 dark:stroke-zinc-800"/>
+    <text x="50" y="224" text-anchor="end">10</text>
+    <line x1="60" y1="160" x2="580" y2="160" class="stroke-zinc-200 dark:stroke-zinc-800"/>
+    <text x="50" y="164" text-anchor="end">20</text>
+    <line x1="60" y1="100" x2="580" y2="100" class="stroke-zinc-200 dark:stroke-zinc-800"/>
+    <text x="50" y="104" text-anchor="end">30</text>
+    <line x1="60" y1="40" x2="580" y2="40" class="stroke-zinc-200 dark:stroke-zinc-800"/>
+    <text x="50" y="44" text-anchor="end">40</text>
+  </g>
+  <text x="20" y="160" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]" transform="rotate(-90 20 160)">PSNR (dB)</text>
+
+  <line x1="60" y1="194" x2="580" y2="194" stroke-dasharray="4 4" class="stroke-rose-400" stroke-width="1.5"/>
+  <text x="576" y="188" text-anchor="end" class="fill-rose-500 text-[11px]">uncorrected CBCT: 14.4 dB</text>
+
+  <rect x="85" y="129.9" width="35" height="150.1" class="fill-blue-400"/>
+  <rect x="130" y="97" width="35" height="183" class="fill-violet-500"/>
+  <text x="125" y="300" text-anchor="middle" class="fill-zinc-700 dark:fill-zinc-200 text-[13px] font-medium">CycleGAN</text>
+
+  <rect x="235" y="95.4" width="35" height="184.6" class="fill-blue-400"/>
+  <rect x="280" y="94" width="35" height="186" class="fill-violet-500"/>
+  <text x="275" y="300" text-anchor="middle" class="fill-zinc-700 dark:fill-zinc-200 text-[13px] font-medium">C-DDPM</text>
+
+  <rect x="385" y="94.1" width="35" height="185.9" class="fill-blue-400"/>
+  <rect x="430" y="49.4" width="35" height="230.6" class="fill-violet-500"/>
+  <text x="425" y="300" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[13px] font-semibold">EPC-3D-Diff (ours)</text>
+
+  <g class="text-[11px] font-medium">
+    <text x="102" y="124" text-anchor="middle" class="fill-zinc-600 dark:fill-zinc-300">25.9</text>
+    <text x="147" y="91" text-anchor="middle" class="fill-zinc-600 dark:fill-zinc-300">30.5</text>
+    <text x="252" y="89" text-anchor="middle" class="fill-zinc-600 dark:fill-zinc-300">30.8</text>
+    <text x="297" y="88" text-anchor="middle" class="fill-zinc-600 dark:fill-zinc-300">31.0</text>
+    <text x="402" y="88" text-anchor="middle" class="fill-zinc-600 dark:fill-zinc-300">31.0</text>
+    <text x="447" y="43" text-anchor="middle" class="fill-violet-600 dark:fill-violet-300 font-bold">38.4</text>
+  </g>
+
+  <g class="text-[12px]">
+    <rect x="150" y="320" width="14" height="14" class="fill-blue-400"/>
+    <text x="170" y="331" class="fill-zinc-600 dark:fill-zinc-300">Single-domain training</text>
+    <rect x="360" y="320" width="14" height="14" class="fill-violet-500"/>
+    <text x="380" y="331" class="fill-zinc-600 dark:fill-zinc-300">Mixed-domain training</text>
+  </g>
+</svg>
+
+| Dataset | Training regime | Method | PSNR ↑ | SSIM ↑ |
+|---|---|---|---|---|
+| Phantom (NWH) | — | CBCT vs. CT (uncorrected) | 14.41 | — |
+| Phantom (NWH) | Single-domain | CycleGAN | 25.85 | — |
+| Phantom (NWH) | Single-domain | C-DDPM | 30.77 | — |
+| Phantom (NWH) | Single-domain | **EPC-3D-Diff** | 30.99 | — |
+| Phantom (NWH) | Mixed-domain | CycleGAN | 30.50 | — |
+| Phantom (NWH) | Mixed-domain | C-DDPM | 31.00 | — |
+| Phantom (NWH) | Mixed-domain | **EPC-3D-Diff** | **38.44** | — |
+
+*PSNR (dB) on the phantom test set, reproduced from the paper's Table 1. See the [paper](https://arxiv.org/abs/2605.20470) for full SSIM, MAE, and HU-accuracy results on both the phantom and clinical (JUST) cohorts, and for the ablations isolating the contribution of $\mathcal{L}_{\text{eq}}$.*
+
+On the paired clinical (JUST) cohort — with real inter-patient anatomical variability rather than a controlled phantom — the same physics-consistent constraint carries over and yields a **+1.8 dB** PSNR improvement over the strongest baseline, alongside improved SSIM and HU accuracy within tissue boundaries, indicating the equivariance constraint generalizes beyond the phantom setting rather than only fitting it.
+
+## Takeaways
+
+- Anchoring an equivariance constraint in **projection space**, where a rotation of the volume is *exactly* an angular shift of its own acquisition geometry, ties training to physics in a way that ordinary image-domain augmentation consistency cannot.
+- Performing conditional diffusion in a **compact 3D latent space** makes full-volume (rather than slice-wise) CBCT-to-CT synthesis computationally tractable.
+- The largest gains appear under **mixed-domain training**, where the physics constraint appears to act as a stabilizing signal shared across phantom and clinical data distributions.
+- Gains transfer from a controlled phantom to real **clinical data**, supporting the case for HU-aware synthetic CT in downstream radiotherapy re-planning workflows.
 
 ## Citation
 
-If you copy your bibliography into `./bibliography.bib`, you can cite papers using their BibTeX keys, and they'll be automatically formatted and included in the bibliography section at the end. For example: [@vaswani2017attention]. Note that these citations are distinct from footnotes[^mynote], which show up in a separate section if you use them.
-
-[^mynote]: On the web, they should really be called "endnotes", since each page constitutes a full document.
-
-## Table
-
-Add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables):
-
-| Model | Accuracy | F1 score | Training time (hours) |
-| :--- | :---: | :---: | :---: |
-| BERT-base | 0.89 | 0.87 | 4.5 |
-| RoBERTa-large | 0.92 | 0.91 | 7.2 |
-| DistilBERT | 0.86 | 0.84 | 2.1 |
-| XLNet | 0.90 | 0.89 | 6.8 |
-
-## BibTeX citation
-
-Displaying the BibTeX entry for your paper in a code block makes it easy to copy and paste.
+<a id="cite" />
 
 ```bibtex
-@misc{roman2024academic,
-  author = "{Roman Hauksson}",
-  title = "Academic Project Page Template",
-  year = "2024",
-  howpublished = "\url{https://research-template.roman.technology}",
+@misc{altalib2026epc3ddiff,
+  title         = {{EPC-3D-Diff}: Equivariant Physics Consistent Conditional 3{D} Latent Diffusion for {CBCT} to {CT} Synthesis},
+  author        = {Altalib, Alzahra and Li, Chunhui and Al Ewaidat, Haytham and Alawneh, Khaled and Qendel, Ahmad and Perelli, Alessandro},
+  year          = {2026},
+  eprint        = {2605.20470},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2605.20470}
 }
 ```
 
-## Bibliography
-
-[^ref]
+## References
