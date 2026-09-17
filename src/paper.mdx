@@ -34,6 +34,7 @@ import ImageComparison from "./components/ImageComparison";
     {
       name: "Ahmad Awad Qandeel",
       notes: ["3"],
+      newRow: true,
     },
     {
       name: "Alessandro Perelli",
@@ -56,15 +57,11 @@ import ImageComparison from "./components/ImageComparison";
   ]}
 >
   <div slot="background" class="hero-background">
-    <div class="hero-orb hero-orb-a"></div>
-    <div class="hero-orb hero-orb-b"></div>
-    <div class="hero-grid"></div>
-    <img src="results/cbct_237.png" alt="" class="hero-scan hero-scan-left" />
-    <img src="results/synth_237.png" alt="" class="hero-scan hero-scan-right" />
+    <img src="hero_epc3d_diff.png" alt="" class="hero-background-image" />
   </div>
 </Header>
 
-<SectionPanel tone="blue">
+<SectionPanel tone="green">
 
 ## Abstract
 
@@ -73,6 +70,8 @@ Cone-beam CT (CBCT) is routinely acquired during radiotherapy for patient setup,
 To capture full volumetric context efficiently, diffusion is performed in a compact latent space learned by a lightweight 3D autoencoder. The method is evaluated on paired head-and-neck phantom and clinical CBCT/CT datasets under both single-domain and mixed-domain training, with comparisons against diffusion and CycleGAN baselines. EPC-3D-Diff achieves substantial improvements, including **+7.4 dB PSNR on the phantom cohort** and **+1.8 dB PSNR on the clinical cohort**, together with improved SSIM and HU fidelity.
 
 </SectionPanel>
+
+<SectionPanel tone="white">
 
 ## 1. Introduction
 
@@ -100,7 +99,9 @@ For circular acquisition geometry, an **in-plane rotation** of the synthesized C
 </Fragment>
 </TwoColumns>
 
-<SectionPanel tone="neutral">
+</SectionPanel>
+
+<SectionPanel tone="green">
 
 ## 2. Methodology
 
@@ -135,6 +136,8 @@ $$
 This constraint is integrated with the diffusion loss and the complementary image-domain losses to form the training objective. Importantly, the projection operators are required **only during training**; at inference time, sampling is performed efficiently from the learned conditional prior using the CBCT input alone.
 
 </SectionPanel>
+
+<SectionPanel tone="white">
 
 ## 3. Experiments and Results
 
@@ -237,13 +240,17 @@ On the NWH phantom test set, mixed-domain training yields the strongest performa
 
 The paper also reports a **+1.8 dB** average PSNR gain over C-DDPM on the JUST clinical cohort, together with improved SSIM and HU fidelity.
 
-<SectionPanel tone="blue">
+</SectionPanel>
+
+<SectionPanel tone="green">
 
 ## 4. Conclusion
 
 EPC-3D-Diff combines 3D latent conditional diffusion with a projection-domain equivariance constraint derived from CT acquisition physics. By enforcing rotational consistency in projection space during training, the method improves HU fidelity and robustness under mixed-domain learning and scanner shifts, while preserving efficient operator-free inference at test time.
 
 </SectionPanel>
+
+<SectionPanel tone="white">
 
 ## Citation
 
@@ -260,5 +267,7 @@ EPC-3D-Diff combines 3D latent conditional diffusion with a projection-domain eq
   url           = {https://arxiv.org/abs/2605.20470}
 }
 ```
+
+</SectionPanel>
 
 ## References

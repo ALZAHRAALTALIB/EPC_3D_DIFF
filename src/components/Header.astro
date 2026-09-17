@@ -6,6 +6,7 @@ type Author = {
   url?: string;
   institution?: string;
   notes?: string[];
+  newRow?: boolean;
 };
 
 type Note = {
@@ -28,23 +29,22 @@ interface Props {
 }
 
 const { title, authors, conference, notes, links } = Astro.props;
-
 const hasBackground = Astro.slots.has("background");
 ---
 
 <header
   class:list={[
-    "full-bleed relative mb-14 overflow-hidden",
+    "full-bleed relative mb-0 overflow-hidden",
     hasBackground
-      ? "-mt-16 pt-24 pb-28 lg:pt-28 lg:pb-32"
-      : "border-b border-blue-100/70 bg-gradient-to-br from-slate-50 via-white to-blue-50 py-14 dark:border-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-slate-900",
+      ? "-mt-16 pt-24 pb-24 lg:pt-28 lg:pb-28"
+      : "border-b border-emerald-100/70 bg-gradient-to-br from-emerald-50 via-white to-teal-50 py-14 dark:border-zinc-800",
   ]}
 >
   {
     hasBackground && (
       <div class="cover absolute inset-0 z-0 overflow-hidden">
         <slot name="background" />
-        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,15,33,0.22),rgba(8,15,33,0.68))]" />
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,47,38,0.04),rgba(4,47,38,0.22))]" />
       </div>
     )
   }
@@ -52,18 +52,16 @@ const hasBackground = Astro.slots.has("background");
   <div
     class:list={[
       "relative z-10 mx-auto flex max-w-7xl flex-col items-center px-6 text-center",
-      hasBackground
-        ? "gap-7 text-white prose-headings:text-white"
-        : "gap-6",
+      hasBackground ? "gap-7 text-white prose-headings:text-white" : "gap-6",
     ]}
   >
     <div class="hero-badge-row not-prose flex flex-wrap items-center justify-center gap-3">
       {conference && (
-        <div class="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-semibold tracking-wide text-white shadow-sm backdrop-blur-md">
+        <div class="rounded-full border border-white/25 bg-white/14 px-4 py-1.5 text-sm font-semibold tracking-wide text-white shadow-sm backdrop-blur-md">
           {conference}
         </div>
       )}
-      <div class="rounded-full border border-sky-200/40 bg-sky-400/10 px-4 py-1.5 text-sm font-medium text-sky-100 backdrop-blur-md">
+      <div class="rounded-full border border-emerald-200/45 bg-emerald-300/12 px-4 py-1.5 text-sm font-medium text-emerald-50 backdrop-blur-md">
         Project Page
       </div>
     </div>
@@ -72,45 +70,48 @@ const hasBackground = Astro.slots.has("background");
       {title}
     </h1>
 
-    <div class="not-prose flex max-w-6xl flex-row flex-wrap justify-center gap-x-7 gap-y-3">
+    <div class="author-grid not-prose flex max-w-6xl flex-row flex-wrap justify-center gap-x-10 gap-y-4">
       {
         authors.map((author) => (
-          <div class="flex items-center text-center">
-            <div class="text-lg font-medium sm:text-xl">
-              {author.url ? (
-                <a
-                  class:list={[
-                    hasBackground &&
-                      "text-white/95 underline decoration-white/40 underline-offset-4 transition hover:text-white hover:decoration-white",
-                  ]}
-                  href={author.url}
-                >
-                  {author.name}
-                </a>
-              ) : (
-                author.name
-              )}
-              {author.notes && (
-                <sup class="ml-0.5 text-sm sm:text-base">
-                  {author.notes.map(
-                    (note, index, array) =>
-                      note + (index < array.length - 1 ? "," : ""),
-                  )}
-                </sup>
-              )}
+          <>
+            {author.newRow && <span class="author-row-break" aria-hidden="true"></span>}
+            <div class="flex items-center text-center">
+              <div class="text-lg font-medium sm:text-xl">
+                {author.url ? (
+                  <a
+                    class:list={[
+                      hasBackground &&
+                        "text-white/95 underline decoration-white/40 underline-offset-4 transition hover:text-white hover:decoration-white",
+                    ]}
+                    href={author.url}
+                  >
+                    {author.name}
+                  </a>
+                ) : (
+                  author.name
+                )}
+                {author.notes && (
+                  <sup class="ml-0.5 text-sm sm:text-base">
+                    {author.notes.map(
+                      (note, index, array) =>
+                        note + (index < array.length - 1 ? "," : ""),
+                    )}
+                  </sup>
+                )}
+              </div>
             </div>
-          </div>
+          </>
         ))
       }
     </div>
 
     {
       notes && (
-        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-white/85 sm:text-[0.98rem]">
+        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-white/88 sm:text-[0.98rem]">
           {
             notes.map((note, index, array) => (
               <span>
-                <sup class="text-white/90">{note.symbol}</sup>{note.text}
+                <sup class="text-white/95">{note.symbol}</sup>{note.text}
                 {index < array.length - 1 ? " · " : ""}
               </span>
             ))
@@ -128,8 +129,8 @@ const hasBackground = Astro.slots.has("background");
               class:list={[
                 "hero-link flex flex-row items-center gap-2 rounded-full px-5 py-2.5 text-base font-medium transition hover:no-underline",
                 hasBackground
-                  ? "border border-white/20 bg-white/90 text-zinc-900 shadow-[0_10px_35px_rgba(15,23,42,0.18)] hover:bg-white"
-                  : "bg-zinc-800 text-white hover:bg-black dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50",
+                  ? "border border-white/25 bg-white/92 text-emerald-950 shadow-[0_10px_35px_rgba(3,45,36,0.22)] hover:bg-white"
+                  : "bg-emerald-800 text-white hover:bg-emerald-950",
               ]}
             >
               {link.icon && <Icon name={link.icon} />}
@@ -150,5 +151,11 @@ const hasBackground = Astro.slots.has("background");
   .cover :global(img) {
     position: absolute;
     max-width: none;
+  }
+
+  .author-row-break {
+    flex-basis: 100%;
+    width: 0;
+    height: 0;
   }
 </style>

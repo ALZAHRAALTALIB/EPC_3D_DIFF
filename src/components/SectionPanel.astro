@@ -1,8 +1,8 @@
 ---
 interface Props {
-  tone?: "blue" | "neutral";
+  tone?: "green" | "white";
 }
-const { tone = "neutral" } = Astro.props;
+const { tone = "white" } = Astro.props;
 ---
 
 <section class:list={["section-panel full-bleed", `section-panel-${tone}`]}>
