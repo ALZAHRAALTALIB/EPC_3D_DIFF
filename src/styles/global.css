@@ -243,6 +243,7 @@ body > main > h2::after,
   object-fit: cover;
   object-position: center;
   opacity: 1;
+  filter: brightness(0.88) saturate(0.92);
 }
 
 .hero-title {
