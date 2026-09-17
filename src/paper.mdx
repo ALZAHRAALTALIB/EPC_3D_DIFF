@@ -1,20 +1,18 @@
 ---
 title: "EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis"
-description: "A physics-informed 3D latent diffusion model that turns cone-beam CT scans into CT-quality volumes for radiotherapy, using a projection-domain equivariance loss derived from acquisition physics."
+description: "Project page for EPC-3D-Diff, a physics-consistent 3D latent diffusion framework for CBCT-to-CT synthesis."
 favicon: "favicon.svg"
 theme: "device"
 ---
 
 import Header from "./components/Header.astro";
-import HighlightedSection from "./components/HighlightedSection.astro";
-import Wide from "./components/Wide.astro";
-import TwoColumns from "./components/TwoColumns.astro";
 import SectionPanel from "./components/SectionPanel.astro";
+import TwoColumns from "./components/TwoColumns.astro";
 import ImageComparison from "./components/ImageComparison";
 
 <Header
   title="EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis"
-  conference="Accepted at the Medical Image AI in Radiation Therapy (MIART) Workshop, MICCAI 2026"
+  conference="Accepted at MIART Workshop, MICCAI 2026"
   authors={[
     {
       name: "Alzahra Altalib",
@@ -45,7 +43,7 @@ import ImageComparison from "./components/ImageComparison";
   ]}
   notes={[
     { symbol: "1", text: "School of Science and Engineering, University of Dundee, UK" },
-    { symbol: "2", text: "Faculty of Applied Medical Sciences, Jordan University of Science and Technology" },
+    { symbol: "2", text: "Faculty of Applied Medical Sciences, Jordan University of Science and Technology, Jordan" },
     { symbol: "3", text: "Experia Healthcare, Jordan" },
     { symbol: "4", text: "School of Cardiovascular and Metabolic Health, University of Glasgow, UK" },
   ]}
@@ -56,154 +54,116 @@ import ImageComparison from "./components/ImageComparison";
     { name: "MIART 2026", url: "https://miart-workshop.github.io/", icon: "ri:presentation-line" },
     { name: "BibTeX", url: "#cite", icon: "ri:double-quotes-l" },
   ]}
-/>
-
-<HighlightedSection>
-
-## Abstract
-
-Cone-beam CT (CBCT) is routinely acquired during radiotherapy for patient setup, but its quantitative reliability is degraded by scatter, noise, and reconstruction artifacts, limiting Hounsfield Unit (HU) accuracy. We propose **EPC-3D-Diff**, a novel conditional 3D latent diffusion framework for volumetric CBCT-to-CT synthesis that introduces a **projection-domain equivariance loss** derived from acquisition physics. Unlike common image-domain equivariance, we exploit the fact that an in-plane rotation of the volume corresponds to an angular shift in its projections. During training, we enforce this relationship by forward-projecting rotated synthesized CT volumes and matching them to appropriately angle-shifted projections of the paired target CT, yielding a physics-consistent equivariance constraint integrated into the diffusion objective. To capture full 3D context efficiently, conditional diffusion is performed in a compact latent space learnt by a lightweight 3D autoencoder, preserving axial depth while downsampling in-plane resolution for stable training.
-
-We validate on a paired head CBCT/CT phantom dataset, including repeat scans, and paired clinical data using patient-wise splits, and perform single- and mixed-domain training, ablations, and comparisons with diffusion and CycleGAN baselines. EPC-3D-Diff generalizes well and achieves substantial improvements — **+7.4 dB (phantom)** and **+1.8 dB (clinical data)** in PSNR compared to state-of-the-art methods — alongside improved SSIM and HU accuracy within tissue boundaries. Overall, EPC-3D-Diff improves robustness and physics consistency, supporting HU-aware synthesis for downstream radiotherapy workflows.
-
-</HighlightedSection>
-
-## Why this matters
-
-CT provides the anatomical and electron-density information that radiotherapy planning and dose calculation depend on. CBCT is acquired at treatment time for patient setup because it's fast and low-dose, but scatter and cone-beam artifacts corrupt its Hounsfield Units — exactly the quantity dose calculations rely on. Turning daily CBCT into CT-quality volumes ("synthetic CT") would let clinics re-plan treatment using up-to-date anatomy, without an extra CT scan. The catch: most learned CBCT-to-CT methods are trained slice-by-slice or with generic image-domain regularizers, and nothing forces the output to stay consistent with how CT and CBCT scanners actually acquire data.
-
-<TwoColumns>
-<Fragment slot="left">
-
-**The core idea.** EPC-3D-Diff adds a training-time physics constraint that is specific to tomographic imaging: rotating a 3D volume in-plane is *equivalent* to angularly shifting its own projections. The model enforces this identity between its own synthesized output and the real CT acquisition geometry — not just between the output and a generic augmented copy of itself, which is what conventional image-domain equivariant imaging does.
-
-</Fragment>
-<Fragment slot="right">
-
-**Why 3D latent diffusion.** Working directly in voxel space at full resolution is memory-prohibitive in 3D. A lightweight 3D autoencoder compresses each volume into a compact latent (downsampling in-plane while preserving axial depth), and a conditional diffusion U-Net denoises in that latent space, conditioned on the encoded CBCT.
-
-</Fragment>
-</TwoColumns>
+>
+  <div slot="background" class="hero-background">
+    <div class="hero-orb hero-orb-a"></div>
+    <div class="hero-orb hero-orb-b"></div>
+    <div class="hero-grid"></div>
+    <img src="results/cbct_237.png" alt="" class="hero-scan hero-scan-left" />
+    <img src="results/synth_237.png" alt="" class="hero-scan hero-scan-right" />
+  </div>
+</Header>
 
 <SectionPanel tone="blue">
 
-## Method overview
+## Abstract
 
-<Wide>
-<svg viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto" role="img" aria-label="EPC-3D-Diff pipeline: a CBCT volume is encoded into a latent condition, a 3D conditional U-Net denoises a latent given that condition, a decoder reconstructs a synthetic CT, and a physics-consistent equivariance loss compares forward-projected, rotated synthetic-CT projections against angle-shifted real CT projections.">
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" class="fill-zinc-500 dark:fill-zinc-400" />
-    </marker>
-    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" class="fill-blue-500" />
-    </marker>
-  </defs>
+Cone-beam CT (CBCT) is routinely acquired during radiotherapy for patient setup, but its quantitative reliability is degraded by scatter, noise, and reconstruction artifacts, limiting Hounsfield Unit (HU) accuracy. We propose **EPC-3D-Diff**, a conditional 3D latent diffusion framework for volumetric CBCT-to-CT synthesis that introduces a **projection-domain equivariance loss** derived from acquisition physics. Unlike common image-domain equivariance, the proposed training objective exploits the fact that an in-plane rotation of a 3D volume corresponds to an angular shift of its projections. During training, rotated synthesized CT volumes are forward-projected and matched to appropriately shifted projections of the paired target CT, yielding a physics-consistent constraint integrated into the diffusion objective.
 
-  <rect x="10" y="55" width="120" height="60" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
-  <text x="70" y="80" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[15px] font-medium">CBCT</text>
-  <text x="70" y="99" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]">x_c</text>
-
-  <line x1="130" y1="85" x2="168" y2="85" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <rect x="170" y="55" width="120" height="60" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
-  <text x="230" y="80" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[15px] font-medium">Encoder</text>
-  <text x="230" y="99" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]">E_ψ</text>
-
-  <line x1="290" y1="85" x2="328" y2="85" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="309" y="72" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]">z_c</text>
-
-  <rect x="450" y="0" width="90" height="34" rx="8" class="fill-blue-50 dark:fill-blue-950 stroke-blue-300 dark:stroke-blue-800" stroke-width="1.5"/>
-  <text x="495" y="22" text-anchor="middle" class="fill-blue-700 dark:fill-blue-300 text-[13px]">z_t (noise)</text>
-  <line x1="495" y1="34" x2="495" y2="53" class="stroke-blue-400" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-
-  <rect x="335" y="55" width="220" height="80" rx="12" class="fill-blue-50 dark:fill-blue-950/40 stroke-blue-400 dark:stroke-blue-700" stroke-width="1.8"/>
-  <text x="445" y="88" text-anchor="middle" class="fill-blue-800 dark:fill-blue-200 text-[16px] font-semibold">3D Conditional U-Net</text>
-  <text x="445" y="108" text-anchor="middle" class="fill-blue-600 dark:fill-blue-300 text-[13px]">ε_θ(z_t, t, z_c)</text>
-
-  <line x1="555" y1="95" x2="593" y2="95" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text x="574" y="82" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]">ẑ_0</text>
-
-  <rect x="595" y="65" width="120" height="60" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
-  <text x="655" y="90" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[15px] font-medium">Decoder</text>
-  <text x="655" y="109" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]">D_ω</text>
-
-  <line x1="715" y1="95" x2="753" y2="95" class="stroke-zinc-500 dark:stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <rect x="755" y="65" width="130" height="60" rx="10" class="fill-emerald-50 dark:fill-emerald-950/40 stroke-emerald-400 dark:stroke-emerald-700" stroke-width="1.8"/>
-  <text x="820" y="90" text-anchor="middle" class="fill-emerald-800 dark:fill-emerald-300 text-[15px] font-semibold">sCT</text>
-  <text x="820" y="109" text-anchor="middle" class="fill-emerald-700 dark:fill-emerald-400 text-[13px]">x̂_0</text>
-
-  <line x1="820" y1="125" x2="820" y2="250" class="stroke-emerald-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <rect x="750" y="250" width="140" height="50" rx="8" class="fill-emerald-50 dark:fill-emerald-950/40 stroke-emerald-400 dark:stroke-emerald-700" stroke-width="1.5"/>
-  <text x="820" y="280" text-anchor="middle" class="fill-emerald-800 dark:fill-emerald-300 text-[13px] font-medium">Rotate R_φ</text>
-
-  <line x1="750" y1="275" x2="600" y2="275" class="stroke-emerald-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <rect x="450" y="250" width="150" height="50" rx="8" class="fill-emerald-50 dark:fill-emerald-950/40 stroke-emerald-400 dark:stroke-emerald-700" stroke-width="1.5"/>
-  <text x="525" y="272" text-anchor="middle" class="fill-emerald-800 dark:fill-emerald-300 text-[13px] font-medium">Forward-project</text>
-  <text x="525" y="288" text-anchor="middle" class="fill-emerald-700 dark:fill-emerald-400 text-[12px]">A_0</text>
-
-  <line x1="450" y1="275" x2="390" y2="275" class="stroke-emerald-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <circle cx="355" cy="275" r="34" class="fill-amber-50 dark:fill-amber-950/40 stroke-amber-500" stroke-width="2"/>
-  <text x="355" y="271" text-anchor="middle" class="fill-amber-800 dark:fill-amber-300 text-[13px] font-semibold">L_eq</text>
-  <text x="355" y="286" text-anchor="middle" class="fill-amber-700 dark:fill-amber-400 text-[10px]">equiv. loss</text>
-
-  <line x1="220" y1="275" x2="321" y2="275" class="stroke-amber-500" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <rect x="70" y="250" width="150" height="50" rx="8" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5"/>
-  <text x="145" y="272" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[13px] font-medium">Shift T_φ(y_0)</text>
-  <text x="145" y="288" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[11px]">rotated CT proj.</text>
-
-  <line x1="145" y1="250" x2="145" y2="176" class="stroke-zinc-400" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <rect x="10" y="120" width="120" height="56" rx="10" class="fill-zinc-100 dark:fill-zinc-800 stroke-zinc-400 dark:stroke-zinc-500" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <text x="70" y="144" text-anchor="middle" class="fill-zinc-800 dark:fill-zinc-100 text-[13px] font-medium">CT (train only)</text>
-  <text x="70" y="162" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[12px]">x_0 → y_0</text>
-
-  <path d="M 355 241 C 355 190, 445 130, 445 137" fill="none" class="stroke-amber-500" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
-  <text x="470" y="200" text-anchor="middle" class="fill-amber-600 dark:fill-amber-400 text-[12px]">joins diffusion + raw-data-consistency loss</text>
-
-  <text x="500" y="335" text-anchor="middle" class="fill-zinc-500 dark:fill-zinc-400 text-[13px]" font-style="italic">
-    In-plane rotation of the volume ⇔ angular shift of its projections — enforced as a training-time consistency constraint.
-  </text>
-</svg>
-</Wide>
-
-Let $\mathbf{x}_0, \mathbf{x}_c \in \mathbb{R}^{N \times M \times S}$ denote the CT and CBCT aligned 3D volumes, and $\mathbf{A}_0$, $\mathbf{A}_c$ the discretised helical-CT and cone-beam forward operators. A lightweight 3D autoencoder $(E_\psi, D_\omega)$ compresses volumes into a latent space; a conditional 3D U-Net $\varepsilon_\theta$ is trained with a standard denoising-diffusion objective, conditioned on the encoded CBCT latent $z_c = E_\psi(\mathbf{x}_c)$.
-
-On top of this, the **projection-domain equivariance loss** exploits a simple geometric fact: rotating a volume by an in-plane angle $\varphi$ is equivalent to shifting its projections by $\varphi$ in the angular (view) coordinate. During training, the network's own denoised estimate $\hat{\mathbf{x}}_0$ is rotated by $R_\varphi$, forward-projected with $\mathbf{A}_0$, and compared against the angle-shifted projections $T_\varphi(\mathbf{y}_0)$ of the *paired ground-truth CT* — not a synthetic augmentation of the output itself:
-
-$$
-\mathcal{L}_{\text{eq}} = \big\| \mathbf{A}_0\, R_\varphi(\hat{\mathbf{x}}_0) - T_\varphi(\mathbf{y}_0) \big\|_2^2 , \qquad \mathbf{y}_0 = \mathbf{A}_0 \mathbf{x}_0 .
-$$
-
-This differs from conventional image-domain equivariant imaging [@chen2021equivariant], which only checks self-consistency between a network's output and its own transformed input, with no ground truth and no connection to the physical acquisition process. Anchoring the constraint in projection space, where rotation and angular shift are *exactly* equivalent by construction, ties training directly to how CT and CBCT data are actually acquired. $\mathcal{L}_{\text{eq}}$ is combined with the latent diffusion denoising loss and a raw-data-consistency term into the total training objective.
+To capture full volumetric context efficiently, diffusion is performed in a compact latent space learned by a lightweight 3D autoencoder. The method is evaluated on paired head-and-neck phantom and clinical CBCT/CT datasets under both single-domain and mixed-domain training, with comparisons against diffusion and CycleGAN baselines. EPC-3D-Diff achieves substantial improvements, including **+7.4 dB PSNR on the phantom cohort** and **+1.8 dB PSNR on the clinical cohort**, together with improved SSIM and HU fidelity.
 
 </SectionPanel>
 
-## Datasets
+## 1. Introduction
+
+CT provides the anatomical and electron-density information required for radiotherapy planning and dose calculation, whereas CBCT is typically acquired during treatment for image guidance and patient setup. However, CBCT is affected by scatter, beam-hardening, truncation, and reconstruction artifacts, leading to unreliable HU values and reduced soft-tissue fidelity.
+
+EPC-3D-Diff addresses this CBCT-to-CT synthesis problem by combining **3D latent conditional diffusion** with a **physics-consistent projection-domain equivariance loss**. The resulting framework is designed to improve anatomical fidelity, HU accuracy, and robustness across data domains and scanner settings.
 
 <TwoColumns>
 <Fragment slot="left">
 
-**Phantom (NWH).** A paired head CBCT/CT phantom dataset, including repeat scans across acquisitions, used to evaluate reconstruction fidelity under controlled, artifact-free ground truth.
+### Main contributions
+
+- Conditional **3D latent diffusion** for volumetric CBCT-to-CT synthesis.
+- A **projection-domain equivariance loss** grounded in acquisition physics.
+- Training that leverages CT forward operators while keeping **test-time inference operator-free**.
+- Validation on both **phantom** and **clinical** head-and-neck CBCT/CT data.
 
 </Fragment>
 <Fragment slot="right">
 
-**Clinical (JUST).** Paired clinical head CBCT/CT data with patient-wise train/test splits, used to assess generalization from phantom to real anatomical variability, noise, and inter-patient differences.
+### Key insight
+
+For circular acquisition geometry, an **in-plane rotation** of the synthesized CT corresponds to an **angular shift** in projection space. EPC-3D-Diff enforces this relationship during training, so the model learns not only to match CT appearance in image space, but also to remain consistent with the underlying acquisition physics.
 
 </Fragment>
 </TwoColumns>
 
-Models are evaluated under both **single-domain** training (trained and tested within one dataset) and **mixed-domain** training (trained jointly across phantom and clinical data), against CycleGAN [@liang2019generating] and conditional-DDPM [@peng2024cbctbased] baselines.
+<SectionPanel tone="neutral">
 
-## Results
+## 2. Methodology
 
-### Interactive CBCT-to-sCT comparison
+<figure class="not-prose paper-figure">
+  <img src="figures/fig1_paper.png" alt="Overview of the EPC-3D-Diff methodology showing latent diffusion, CBCT conditioning, decoding to synthetic CT, and the projection-domain equivariance pathway." />
+  <figcaption>
+    <strong>Figure 1.</strong> EPC-3D-Diff methodology. CT and CBCT volumes are encoded into a compact latent space. A conditional 3D latent diffusion model reconstructs the CT latent representation from noisy latent variables conditioned on the CBCT latent. During training, the decoded synthetic CT is further constrained by a projection-domain rotational equivariance loss derived from the acquisition physics.
+  </figcaption>
+</figure>
+
+### 2.1 Problem setup
+
+Let $\mathbf{x}_0$ and $\mathbf{x}_c$ denote the aligned CT and CBCT 3D volumes, respectively, and let $\mathbf{A}_0$ and $\mathbf{A}_c$ denote the discretized helical-CT and cone-beam forward operators. A lightweight 3D autoencoder $(E_\psi, D_\omega)$ maps the volumes into a compact latent space:
+
+$$
+z_0 = E_\psi(\mathbf{x}_0), \qquad z_c = E_\psi(\mathbf{x}_c).
+$$
+
+A conditional 3D U-Net $\varepsilon_\theta$ is then trained to predict the injected diffusion noise in latent space, conditioned on the encoded CBCT representation $z_c$.
+
+### 2.2 Projection-domain equivariance loss
+
+The central idea of EPC-3D-Diff is that an in-plane rotation of the synthetic CT should correspond to an angular shift of its projections. During training, the denoised estimate $\hat{\mathbf{x}}_0$ is rotated by $R_\varphi$, forward-projected with $\mathbf{A}_0$, and compared against the correspondingly shifted projections of the paired target CT:
+
+$$
+\mathcal{L}_{\mathrm{eq}} = \sum_{i=1}^{N_\varphi}
+\left\| T_{\varphi_i}(\mathbf{y}_0) - \mathbf{A}_0 R_{\varphi_i}(\hat{\mathbf{x}}_0) \right\|_2^2,
+\qquad
+\mathbf{y}_0 = \mathbf{A}_0\mathbf{x}_0.
+$$
+
+This constraint is integrated with the diffusion loss and the complementary image-domain losses to form the training objective. Importantly, the projection operators are required **only during training**; at inference time, sampling is performed efficiently from the learned conditional prior using the CBCT input alone.
+
+</SectionPanel>
+
+## 3. Experiments and Results
+
+### 3.1 Datasets and implementation details
+
+<TwoColumns>
+<Fragment slot="left">
+
+**NWH phantom dataset.**  
+Paired head-and-neck CBCT/CT phantom data acquired at Ninewells Hospital (Dundee), including repeat scans and paired raw/image-domain data.
+
+**Split used in the paper.**  
+8 patients for training and 2 patients for testing.
+
+</Fragment>
+<Fragment slot="right">
+
+**JUST clinical dataset.**  
+Paired head-and-neck CBCT/CT data from King Abdullah University Hospital (Jordan), with patient-wise train/test splits.
+
+**Split used in the paper.**  
+11 patients for training and 3 patients for testing.
+
+</Fragment>
+</TwoColumns>
+
+All images are converted to HU, clipped to the fixed window $[-1000, 2000]$, normalized to $[-1,1]$, and resized to $256 \times 256$. The latent autoencoder uses 4 channels, the conditional 3D U-Net uses a base width of 64, and diffusion training is performed with 1000 timesteps and DDIM inference with 100 sampling steps.
+
+### 3.2 Interactive qualitative comparison
 
 <ImageComparison
   client:load
@@ -211,7 +171,9 @@ Models are evaluated under both **single-domain** training (trained and tested w
   sctSrc="results/synth_237.png"
 />
 
-On the phantom test set, EPC-3D-Diff improves PSNR by **+7.4 dB** over the strongest baseline once trained in the mixed-domain regime, and matches or exceeds single-domain baselines even in the harder single-domain setting:
+### 3.3 Quantitative summary
+
+On the NWH phantom test set, mixed-domain training yields the strongest performance, with EPC-3D-Diff achieving the best quantitative reconstruction fidelity. The largest gain appears in the mixed-domain regime, where the projection-domain equivariance prior improves robustness across phantom and clinical domains.
 
 <svg viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto max-w-xl mx-auto" role="img" aria-label="Bar chart of PSNR in decibels for CycleGAN, C-DDPM, and EPC-3D-Diff, each under single-domain and mixed-domain training, compared against uncorrected CBCT at 14.4 dB. EPC-3D-Diff under mixed-domain training reaches 38.4 dB, clearly ahead of all other bars.">
   <line x1="60" y1="280" x2="580" y2="280" class="stroke-zinc-400 dark:stroke-zinc-600" stroke-width="1.5"/>
@@ -265,24 +227,23 @@ On the phantom test set, EPC-3D-Diff improves PSNR by **+7.4 dB** over the stron
 
 | Dataset | Training regime | Method | PSNR ↑ | SSIM ↑ |
 |---|---|---|---|---|
-| Phantom (NWH) | — | CBCT vs. CT (uncorrected) | 14.41 | — |
-| Phantom (NWH) | Single-domain | CycleGAN | 25.85 | — |
-| Phantom (NWH) | Single-domain | C-DDPM | 30.77 | — |
-| Phantom (NWH) | Single-domain | **EPC-3D-Diff** | 30.99 | — |
-| Phantom (NWH) | Mixed-domain | CycleGAN | 30.50 | — |
-| Phantom (NWH) | Mixed-domain | C-DDPM | 31.00 | — |
-| Phantom (NWH) | Mixed-domain | **EPC-3D-Diff** | **38.44** | — |
+| Phantom (NWH) | — | CBCT vs. CT (uncorrected) | 14.41 | 0.26 |
+| Phantom (NWH) | Single-domain | CycleGAN | 25.85 | 0.82 |
+| Phantom (NWH) | Single-domain | C-DDPM | 30.77 | 0.91 |
+| Phantom (NWH) | Single-domain | **EPC-3D-Diff** | 30.99 | 0.92 |
+| Phantom (NWH) | Mixed-domain | CycleGAN | 30.50 | 0.88 |
+| Phantom (NWH) | Mixed-domain | C-DDPM | 31.00 | 0.93 |
+| Phantom (NWH) | Mixed-domain | **EPC-3D-Diff** | **38.44** | **0.99** |
 
-*PSNR (dB) on the phantom test set, reproduced from the paper's Table 1. See the [paper](https://arxiv.org/abs/2605.20470) for full SSIM, MAE, and HU-accuracy results on both the phantom and clinical (JUST) cohorts, and for the ablations isolating the contribution of $\mathcal{L}_{\text{eq}}$.*
+The paper also reports a **+1.8 dB** average PSNR gain over C-DDPM on the JUST clinical cohort, together with improved SSIM and HU fidelity.
 
-On the paired clinical (JUST) cohort — with real inter-patient anatomical variability rather than a controlled phantom — the same physics-consistent constraint carries over and yields a **+1.8 dB** PSNR improvement over the strongest baseline, alongside improved SSIM and HU accuracy within tissue boundaries, indicating the equivariance constraint generalizes beyond the phantom setting rather than only fitting it.
+<SectionPanel tone="blue">
 
-## Takeaways
+## 4. Conclusion
 
-- Anchoring an equivariance constraint in **projection space**, where a rotation of the volume is *exactly* an angular shift of its own acquisition geometry, ties training to physics in a way that ordinary image-domain augmentation consistency cannot.
-- Performing conditional diffusion in a **compact 3D latent space** makes full-volume (rather than slice-wise) CBCT-to-CT synthesis computationally tractable.
-- The largest gains appear under **mixed-domain training**, where the physics constraint appears to act as a stabilizing signal shared across phantom and clinical data distributions.
-- Gains transfer from a controlled phantom to real **clinical data**, supporting the case for HU-aware synthetic CT in downstream radiotherapy re-planning workflows.
+EPC-3D-Diff combines 3D latent conditional diffusion with a projection-domain equivariance constraint derived from CT acquisition physics. By enforcing rotational consistency in projection space during training, the method improves HU fidelity and robustness under mixed-domain learning and scanner shifts, while preserving efficient operator-free inference at test time.
+
+</SectionPanel>
 
 ## Citation
 

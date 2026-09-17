@@ -34,40 +34,64 @@ const hasBackground = Astro.slots.has("background");
 
 <header
   class:list={[
-    "full-bleed relative mb-12 overflow-hidden",
-    hasBackground ? "-mt-16 pt-24 pb-28" : "border-b border-blue-100/70 bg-gradient-to-br from-slate-50 via-white to-blue-50 py-14 dark:border-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-slate-900",
+    "full-bleed relative mb-14 overflow-hidden",
+    hasBackground
+      ? "-mt-16 pt-24 pb-28 lg:pt-28 lg:pb-32"
+      : "border-b border-blue-100/70 bg-gradient-to-br from-slate-50 via-white to-blue-50 py-14 dark:border-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-slate-900",
   ]}
 >
   {
     hasBackground && (
       <div class="cover absolute inset-0 z-0 overflow-hidden">
         <slot name="background" />
-        {/* Darken the cover so the white header text stays legible. */}
-        <div class="absolute inset-0 bg-black/40" />
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,15,33,0.22),rgba(8,15,33,0.68))]" />
       </div>
     )
   }
+
   <div
     class:list={[
       "relative z-10 mx-auto flex max-w-7xl flex-col items-center px-6 text-center",
       hasBackground
-        ? "gap-10 text-white prose-headings:text-white [text-shadow:0_0_8px_rgba(0,0,0,0.6)]"
+        ? "gap-7 text-white prose-headings:text-white"
         : "gap-6",
     ]}
   >
-    <h1 class="my-0 max-w-6xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{title}</h1>
-    <div class="flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
+    <div class="hero-badge-row not-prose flex flex-wrap items-center justify-center gap-3">
+      {conference && (
+        <div class="rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-semibold tracking-wide text-white shadow-sm backdrop-blur-md">
+          {conference}
+        </div>
+      )}
+      <div class="rounded-full border border-sky-200/40 bg-sky-400/10 px-4 py-1.5 text-sm font-medium text-sky-100 backdrop-blur-md">
+        Project Page
+      </div>
+    </div>
+
+    <h1 class="hero-title my-0 max-w-6xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+      {title}
+    </h1>
+
+    <div class="not-prose flex max-w-6xl flex-row flex-wrap justify-center gap-x-7 gap-y-3">
       {
         authors.map((author) => (
-          <div class="flex flex-col items-center text-center">
-            <div class="flex flex-row text-xl">
+          <div class="flex items-center text-center">
+            <div class="text-lg font-medium sm:text-xl">
               {author.url ? (
-                <a class:list={[hasBackground && "not-prose text-blue-200 hover:text-blue-100 underline decoration-dashed underline-offset-4 hover:decoration-solid"]} href={author.url}>{author.name}</a>
+                <a
+                  class:list={[
+                    hasBackground &&
+                      "text-white/95 underline decoration-white/40 underline-offset-4 transition hover:text-white hover:decoration-white",
+                  ]}
+                  href={author.url}
+                >
+                  {author.name}
+                </a>
               ) : (
                 author.name
               )}
               {author.notes && (
-                <sup class="text-xl">
+                <sup class="ml-0.5 text-sm sm:text-base">
                   {author.notes.map(
                     (note, index, array) =>
                       note + (index < array.length - 1 ? "," : ""),
@@ -75,34 +99,37 @@ const hasBackground = Astro.slots.has("background");
                 </sup>
               )}
             </div>
-            {author.institution && <div>{author.institution}</div>}
           </div>
         ))
       }
     </div>
-    {conference && <div class="rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-800 dark:border-blue-900 dark:bg-blue-950/50 dark:text-blue-200">{conference}</div>}
+
     {
       notes && (
-        <div class="max-w-6xl text-center text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-white/85 sm:text-[0.98rem]">
           {
-            // prettier-ignore
             notes.map((note, index, array) => (
               <span>
-                <sup>{note.symbol}</sup>{note.text}{index < array.length - 1 ? " · " : ""}
+                <sup class="text-white/90">{note.symbol}</sup>{note.text}
+                {index < array.length - 1 ? " · " : ""}
               </span>
             ))
           }
         </div>
       )
     }
+
     {
       links && (
-        <div class="not-prose flex flex-row flex-wrap justify-center gap-2">
+        <div class="not-prose flex flex-row flex-wrap justify-center gap-3 pt-1">
           {links.map((link) => (
             <a
               href={link.url}
-              class:list={["flex flex-row items-center gap-2 rounded-full px-5 py-2 text-lg hover:no-underline",
-                hasBackground ? "bg-white hover:bg-zinc-200 text-zinc-800 text-shadow-none shadow-[0_0_8px_rgba(0,0,0,0.6)]" : "bg-zinc-800 text-white hover:bg-black dark:text-zinc-900 dark:hover:bg-zinc-50 dark:bg-zinc-200"
+              class:list={[
+                "hero-link flex flex-row items-center gap-2 rounded-full px-5 py-2.5 text-base font-medium transition hover:no-underline",
+                hasBackground
+                  ? "border border-white/20 bg-white/90 text-zinc-900 shadow-[0_10px_35px_rgba(15,23,42,0.18)] hover:bg-white"
+                  : "bg-zinc-800 text-white hover:bg-black dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50",
               ]}
             >
               {link.icon && <Icon name={link.icon} />}
@@ -116,21 +143,12 @@ const hasBackground = Astro.slots.has("background");
 </header>
 
 <style>
-  /* Make the slotted cover (Picture/Video, or a plain <img>/<video>) fill the
-     header, overriding those components' figure styling. Scoped to `.cover`.
-     Kept as scoped CSS because expressing it with Tailwind would require
-     repeating the descendant variant on every declaration. */
-  .cover :global(:is(picture, img, video)) {
-    position: absolute;
-    inset: 0;
-    /* Zero the margin that `prose` adds to media elements, which would
-       otherwise push the cover down and expose the page background. */
+  .cover :global(:is(picture, img, video, .hero-background, .hero-background *)) {
     margin: 0;
-    width: 100%;
-    height: 100%;
+  }
+
+  .cover :global(img) {
+    position: absolute;
     max-width: none;
-    max-height: none;
-    object-fit: cover;
-    border-radius: 0;
   }
 </style>
