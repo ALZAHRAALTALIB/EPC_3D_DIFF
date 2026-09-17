@@ -52,7 +52,7 @@ const hasBackground = Astro.slots.has("background");
   <div
     class:list={[
       "relative z-10 mx-auto flex max-w-7xl flex-col items-center px-6 text-center",
-      hasBackground ? "gap-7 text-emerald-950 prose-headings:text-emerald-950" : "gap-6",
+      hasBackground ? "gap-7 text-white prose-headings:text-white" : "gap-6",
     ]}
   >
     <div class="hero-badge-row not-prose flex flex-wrap items-center justify-center gap-3">
@@ -81,7 +81,7 @@ const hasBackground = Astro.slots.has("background");
                   <a
                     class:list={[
                       hasBackground &&
-                        "text-emerald-950 underline decoration-emerald-700/35 underline-offset-4 transition hover:text-emerald-800 hover:decoration-emerald-700",
+                        "text-white underline decoration-white/45 underline-offset-4 transition hover:text-emerald-50 hover:decoration-white",
                     ]}
                     href={author.url}
                   >
@@ -107,11 +107,11 @@ const hasBackground = Astro.slots.has("background");
 
     {
       notes && (
-        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-emerald-950/82 sm:text-[0.98rem]">
+        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-white/90 sm:text-[0.98rem]">
           {
             notes.map((note, index, array) => (
               <span>
-                <sup class="text-emerald-950">{note.symbol}</sup>{note.text}
+                <sup class="text-white">{note.symbol}</sup>{note.text}
                 {index < array.length - 1 ? " · " : ""}
               </span>
             ))
