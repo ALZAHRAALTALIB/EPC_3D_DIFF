@@ -1,5 +1,5 @@
 ---
-title: "EPC-3D-Diff: Equivariant Physics-Consistent Conditional 3D Latent Diffusion for CBCT-to-CT Synthesis"
+title: "EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis"
 description: "A physics-informed 3D latent diffusion model that turns cone-beam CT scans into CT-quality volumes for radiotherapy, using a projection-domain equivariance loss derived from acquisition physics."
 favicon: "favicon.svg"
 theme: "device"
@@ -9,53 +9,51 @@ import Header from "./components/Header.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
 import Wide from "./components/Wide.astro";
 import TwoColumns from "./components/TwoColumns.astro";
+import SectionPanel from "./components/SectionPanel.astro";
+import ImageComparison from "./components/ImageComparison";
 
 <Header
-  title="EPC-3D-Diff"
-  conference="arXiv preprint, 2026"
+  title="EPC-3D-Diff: Equivariant Physics Consistent Conditional 3D Latent Diffusion for CBCT to CT Synthesis"
+  conference="Accepted at the Medical Image AI in Radiation Therapy (MIART) Workshop, MICCAI 2026"
   authors={[
     {
       name: "Alzahra Altalib",
       url: "mailto:2600129@dundee.ac.uk",
-      institution: "University of Dundee · Jordan University of Science and Technology",
       notes: ["1,2"],
     },
     {
       name: "Chunhui Li",
-      institution: "University of Dundee",
       notes: ["1"],
     },
     {
-      name: "Haytham Al Ewaidat",
-      institution: "Jordan University of Science and Technology",
+      name: "Haytham Ahmad Alewaidat",
       notes: ["2"],
     },
     {
-      name: "Khaled Alawneh",
-      institution: "Jordan University of Science and Technology",
+      name: "Khaled Z. Alawneh",
       notes: ["2"],
     },
     {
-      name: "Ahmad Qendel",
-      institution: "Experia Healthcare, Jordan",
+      name: "Ahmad Awad Qandeel",
       notes: ["3"],
     },
     {
       name: "Alessandro Perelli",
       url: "https://www.gla.ac.uk/schools/cardiovascular-metabolic-health/staff/alessandroperelli/",
-      institution: "University of Glasgow",
       notes: ["4"],
     },
   ]}
   notes={[
     { symbol: "1", text: "School of Science and Engineering, University of Dundee, UK" },
-    { symbol: "2", text: "Faculty of Applied Sciences, Jordan University of Science and Technology" },
+    { symbol: "2", text: "Faculty of Applied Medical Sciences, Jordan University of Science and Technology" },
     { symbol: "3", text: "Experia Healthcare, Jordan" },
     { symbol: "4", text: "School of Cardiovascular and Metabolic Health, University of Glasgow, UK" },
   ]}
   links={[
     { name: "Paper (PDF)", url: "https://arxiv.org/pdf/2605.20470", icon: "ri:file-pdf-2-line" },
     { name: "arXiv", url: "https://arxiv.org/abs/2605.20470", icon: "academicons:arxiv" },
+    { name: "Code", url: "https://github.com/ALZAHRAALTALIB/EPC-3D-DIFF", icon: "ri:github-fill" },
+    { name: "MIART 2026", url: "https://miart-workshop.github.io/", icon: "ri:presentation-line" },
     { name: "BibTeX", url: "#cite", icon: "ri:double-quotes-l" },
   ]}
 />
@@ -86,6 +84,8 @@ CT provides the anatomical and electron-density information that radiotherapy pl
 
 </Fragment>
 </TwoColumns>
+
+<SectionPanel tone="blue">
 
 ## Method overview
 
@@ -182,6 +182,8 @@ $$
 
 This differs from conventional image-domain equivariant imaging [@chen2021equivariant], which only checks self-consistency between a network's output and its own transformed input, with no ground truth and no connection to the physical acquisition process. Anchoring the constraint in projection space, where rotation and angular shift are *exactly* equivalent by construction, ties training directly to how CT and CBCT data are actually acquired. $\mathcal{L}_{\text{eq}}$ is combined with the latent diffusion denoising loss and a raw-data-consistency term into the total training objective.
 
+</SectionPanel>
+
 ## Datasets
 
 <TwoColumns>
@@ -200,6 +202,14 @@ This differs from conventional image-domain equivariant imaging [@chen2021equiva
 Models are evaluated under both **single-domain** training (trained and tested within one dataset) and **mixed-domain** training (trained jointly across phantom and clinical data), against CycleGAN [@liang2019generating] and conditional-DDPM [@peng2024cbctbased] baselines.
 
 ## Results
+
+### Interactive CBCT-to-sCT comparison
+
+<ImageComparison
+  client:load
+  cbctSrc="results/cbct_237.png"
+  sctSrc="results/synth_237.png"
+/>
 
 On the phantom test set, EPC-3D-Diff improves PSNR by **+7.4 dB** over the strongest baseline once trained in the mixed-domain regime, and matches or exceeds single-domain baselines even in the harder single-domain setting:
 
@@ -281,7 +291,7 @@ On the paired clinical (JUST) cohort — with real inter-patient anatomical vari
 ```bibtex
 @misc{altalib2026epc3ddiff,
   title         = {{EPC-3D-Diff}: Equivariant Physics Consistent Conditional 3{D} Latent Diffusion for {CBCT} to {CT} Synthesis},
-  author        = {Altalib, Alzahra and Li, Chunhui and Al Ewaidat, Haytham and Alawneh, Khaled and Qendel, Ahmad and Perelli, Alessandro},
+  author        = {Altalib, Alzahra and Li, Chunhui and Alewaidat, Haytham Ahmad and Alawneh, Khaled Z. and Qandeel, Ahmad Awad and Perelli, Alessandro},
   year          = {2026},
   eprint        = {2605.20470},
   archivePrefix = {arXiv},

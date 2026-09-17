@@ -1,0 +1,12 @@
+---
+interface Props {
+  tone?: "blue" | "neutral";
+}
+const { tone = "neutral" } = Astro.props;
+---
+
+<section class:list={["section-panel full-bleed", `section-panel-${tone}`]}>
+  <div class="section-panel-inner">
+    <slot />
+  </div>
+</section>

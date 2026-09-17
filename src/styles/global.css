@@ -24,7 +24,7 @@ html {
 }
 
 :root {
-  --maximum-text-width: 50rem;
+  --maximum-text-width: 68rem;
   --minimum-inline-margin: 1.5rem;
   --actual-inline-margin: max(
     var(--minimum-inline-margin),
@@ -165,4 +165,152 @@ main .katex-display {
   button {
     @apply cursor-pointer;
   }
+}
+
+
+/* EPC-3D-Diff project-page refinements */
+body {
+  background:
+    radial-gradient(circle at 10% 0%, rgb(219 234 254 / 0.55), transparent 34rem),
+    radial-gradient(circle at 90% 12%, rgb(224 231 255 / 0.45), transparent 32rem),
+    var(--background);
+}
+
+body > main > h2 {
+  margin-top: 4rem;
+  padding-top: 0.25rem;
+  font-size: clamp(1.75rem, 2.5vw, 2.35rem);
+  letter-spacing: -0.025em;
+}
+
+body > main > h2::after,
+.section-panel-inner > h2::after {
+  content: "";
+  display: block;
+  width: 4.5rem;
+  height: 0.22rem;
+  margin-top: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+}
+
+.section-panel {
+  margin-block: 4.5rem;
+  padding-block: 3.5rem;
+  border-block: 1px solid rgb(148 163 184 / 0.18);
+}
+
+.section-panel-blue {
+  background:
+    radial-gradient(circle at 15% 15%, rgb(219 234 254 / 0.9), transparent 30rem),
+    radial-gradient(circle at 88% 75%, rgb(237 233 254 / 0.8), transparent 28rem),
+    linear-gradient(135deg, rgb(248 250 252 / 0.92), rgb(239 246 255 / 0.88));
+}
+
+.section-panel-neutral {
+  background: linear-gradient(180deg, rgb(248 250 252 / 0.92), rgb(255 255 255 / 0.85));
+}
+
+.section-panel-inner {
+  width: min(68rem, calc(100% - 3rem));
+  margin-inline: auto;
+}
+
+[data-theme="dark"] .section-panel-blue,
+[data-theme="dark"] .section-panel-neutral {
+  background: linear-gradient(135deg, rgb(24 24 27 / 0.96), rgb(30 41 59 / 0.88));
+}
+
+.comparison-shell {
+  margin: 2rem auto 3rem;
+  max-width: 54rem;
+  padding: 1.25rem;
+  border: 1px solid rgb(148 163 184 / 0.25);
+  border-radius: 1.35rem;
+  background: rgb(255 255 255 / 0.88);
+  box-shadow: 0 22px 65px rgb(15 23 42 / 0.12);
+  backdrop-filter: blur(14px);
+}
+
+[data-theme="dark"] .comparison-shell {
+  background: rgb(24 24 27 / 0.88);
+}
+
+.comparison-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.25rem 1rem;
+}
+
+.comparison-header h3 {
+  margin: 0.15rem 0 0;
+  font-size: 1.45rem;
+  letter-spacing: -0.02em;
+}
+
+.comparison-kicker {
+  margin: 0;
+  color: #2563eb;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.comparison-help,
+.comparison-caption {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.comparison-stage {
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #020617;
+}
+
+.comparison-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.comparison-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+.comparison-label {
+  position: absolute;
+  top: 0.85rem;
+  z-index: 5;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 999px;
+  padding: 0.42rem 0.72rem;
+  background: rgb(2 6 23 / 0.72);
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+}
+
+.comparison-label-left { left: 0.85rem; }
+.comparison-label-right { right: 0.85rem; }
+
+.comparison-caption {
+  padding: 0.95rem 0.25rem 0.15rem;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  :root { --maximum-text-width: 100%; }
+  .comparison-header { align-items: flex-start; flex-direction: column; }
+  .section-panel-inner { width: min(100% - 2rem, 68rem); }
 }

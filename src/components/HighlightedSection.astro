@@ -1,7 +1,7 @@
-<div class="full-bleed bg-zinc-200 py-8 dark:bg-zinc-800">
-  <div
-    class="mx-[var(--actual-inline-margin)] [&>:first-child]:mt-0 [&>:last-child]:mb-0"
-  >
+<section class="full-bleed relative my-12 overflow-hidden border-y border-blue-100/70 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-12 dark:border-zinc-700 dark:from-zinc-900 dark:via-slate-900 dark:to-zinc-900">
+  <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-blue-200/35 blur-3xl dark:bg-blue-950/30"></div>
+  <div class="pointer-events-none absolute -bottom-28 -right-24 h-80 w-80 rounded-full bg-violet-200/30 blur-3xl dark:bg-violet-950/25"></div>
+  <div class="relative mx-auto w-[min(68rem,calc(100%-3rem))] [&>:first-child]:mt-0 [&>:last-child]:mb-0">
     <slot />
   </div>
-</div>
+</section>

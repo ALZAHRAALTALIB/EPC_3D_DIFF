@@ -34,8 +34,8 @@ const hasBackground = Astro.slots.has("background");
 
 <header
   class:list={[
-    "full-bleed relative mb-12",
-    hasBackground && "-mt-16 pt-24 pb-28",
+    "full-bleed relative mb-12 overflow-hidden",
+    hasBackground ? "-mt-16 pt-24 pb-28" : "border-b border-blue-100/70 bg-gradient-to-br from-slate-50 via-white to-blue-50 py-14 dark:border-zinc-800 dark:from-zinc-950 dark:via-zinc-900 dark:to-slate-900",
   ]}
 >
   {
@@ -55,7 +55,7 @@ const hasBackground = Astro.slots.has("background");
         : "gap-6",
     ]}
   >
-    <h1 class="my-0 text-5xl font-medium">{title}</h1>
+    <h1 class="my-0 max-w-6xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{title}</h1>
     <div class="flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
       {
         authors.map((author) => (
@@ -80,15 +80,15 @@ const hasBackground = Astro.slots.has("background");
         ))
       }
     </div>
-    {conference && <div>{conference}</div>}
+    {conference && <div class="rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-800 dark:border-blue-900 dark:bg-blue-950/50 dark:text-blue-200">{conference}</div>}
     {
       notes && (
-        <div class="text-center text-sm">
+        <div class="max-w-6xl text-center text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
           {
             // prettier-ignore
             notes.map((note, index, array) => (
               <span>
-                <sup>{note.symbol}</sup>{note.text}{index < array.length - 1 ? "," : ""}
+                <sup>{note.symbol}</sup>{note.text}{index < array.length - 1 ? " · " : ""}
               </span>
             ))
           }
