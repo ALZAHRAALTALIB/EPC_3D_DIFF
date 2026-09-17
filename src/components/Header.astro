@@ -44,7 +44,7 @@ const hasBackground = Astro.slots.has("background");
     hasBackground && (
       <div class="cover absolute inset-0 z-0 overflow-hidden">
         <slot name="background" />
-        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,47,38,0.04),rgba(4,47,38,0.22))]" />
+        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(225,247,239,0.18))]" />
       </div>
     )
   }
@@ -52,16 +52,16 @@ const hasBackground = Astro.slots.has("background");
   <div
     class:list={[
       "relative z-10 mx-auto flex max-w-7xl flex-col items-center px-6 text-center",
-      hasBackground ? "gap-7 text-white prose-headings:text-white" : "gap-6",
+      hasBackground ? "gap-7 text-emerald-950 prose-headings:text-emerald-950" : "gap-6",
     ]}
   >
     <div class="hero-badge-row not-prose flex flex-wrap items-center justify-center gap-3">
       {conference && (
-        <div class="rounded-full border border-white/25 bg-white/14 px-4 py-1.5 text-sm font-semibold tracking-wide text-white shadow-sm backdrop-blur-md">
+        <div class="rounded-full border border-emerald-800/15 bg-white/72 px-4 py-1.5 text-sm font-semibold tracking-wide text-emerald-950 shadow-sm backdrop-blur-md">
           {conference}
         </div>
       )}
-      <div class="rounded-full border border-emerald-200/45 bg-emerald-300/12 px-4 py-1.5 text-sm font-medium text-emerald-50 backdrop-blur-md">
+      <div class="rounded-full border border-emerald-700/15 bg-emerald-50/78 px-4 py-1.5 text-sm font-medium text-emerald-900 backdrop-blur-md">
         Project Page
       </div>
     </div>
@@ -81,7 +81,7 @@ const hasBackground = Astro.slots.has("background");
                   <a
                     class:list={[
                       hasBackground &&
-                        "text-white/95 underline decoration-white/40 underline-offset-4 transition hover:text-white hover:decoration-white",
+                        "text-emerald-950 underline decoration-emerald-700/35 underline-offset-4 transition hover:text-emerald-800 hover:decoration-emerald-700",
                     ]}
                     href={author.url}
                   >
@@ -107,11 +107,11 @@ const hasBackground = Astro.slots.has("background");
 
     {
       notes && (
-        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-white/88 sm:text-[0.98rem]">
+        <div class="hero-notes max-w-5xl text-center text-sm leading-relaxed text-emerald-950/82 sm:text-[0.98rem]">
           {
             notes.map((note, index, array) => (
               <span>
-                <sup class="text-white/95">{note.symbol}</sup>{note.text}
+                <sup class="text-emerald-950">{note.symbol}</sup>{note.text}
                 {index < array.length - 1 ? " · " : ""}
               </span>
             ))
@@ -129,7 +129,7 @@ const hasBackground = Astro.slots.has("background");
               class:list={[
                 "hero-link flex flex-row items-center gap-2 rounded-full px-5 py-2.5 text-base font-medium transition hover:no-underline",
                 hasBackground
-                  ? "border border-white/25 bg-white/92 text-emerald-950 shadow-[0_10px_35px_rgba(3,45,36,0.22)] hover:bg-white"
+                  ? "border border-emerald-900/10 bg-emerald-900 text-white shadow-[0_10px_30px_rgba(6,78,59,0.16)] hover:bg-emerald-800"
                   : "bg-emerald-800 text-white hover:bg-emerald-950",
               ]}
             >

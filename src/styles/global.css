@@ -183,7 +183,7 @@ body {
 }
 
 body > main > h2 {
-  margin-top: 4rem;
+  margin-top: 2.8rem;
   padding-top: 0.25rem;
   font-size: clamp(1.75rem, 2.5vw, 2.35rem);
   letter-spacing: -0.025em;
@@ -202,21 +202,21 @@ body > main > h2::after,
 
 .section-panel {
   margin-block: 0;
-  padding-block: 4.25rem;
+  padding-block: 3.1rem;
   border-block: 1px solid rgb(16 185 129 / 0.10);
 }
 
 .section-panel-white {
   background:
-    radial-gradient(circle at 92% 8%, rgb(236 253 245 / 0.34), transparent 28rem),
+    radial-gradient(circle at 92% 8%, rgb(236 253 245 / 0.24), transparent 26rem),
     #ffffff;
 }
 
 .section-panel-green {
   background:
-    radial-gradient(circle at 12% 10%, rgb(209 250 229 / 0.80), transparent 30rem),
-    radial-gradient(circle at 90% 78%, rgb(204 251 241 / 0.62), transparent 28rem),
-    linear-gradient(135deg, rgb(247 254 250 / 0.98), rgb(236 253 245 / 0.95));
+    radial-gradient(circle at 12% 10%, rgb(220 252 231 / 0.62), transparent 28rem),
+    radial-gradient(circle at 90% 78%, rgb(204 251 241 / 0.40), transparent 26rem),
+    linear-gradient(135deg, rgb(251 255 253 / 0.99), rgb(242 253 247 / 0.96));
 }
 
 .section-panel-inner {
@@ -232,7 +232,7 @@ body > main > h2::after,
 .hero-background {
   position: absolute;
   inset: 0;
-  background: #0d5547;
+  background: #dff4ea;
 }
 
 .hero-background-image {
@@ -247,7 +247,7 @@ body > main > h2::after,
 
 .hero-title {
   text-wrap: balance;
-  text-shadow: 0 3px 24px rgba(3, 45, 36, 0.35);
+  text-shadow: 0 2px 18px rgba(255, 255, 255, 0.32);
 }
 
 .hero-link {
@@ -256,7 +256,7 @@ body > main > h2::after,
 
 .hero-notes {
   text-wrap: pretty;
-  text-shadow: 0 2px 16px rgba(3, 45, 36, 0.28);
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.35);
 }
 
 .author-grid {
@@ -298,8 +298,8 @@ body > main > h2::after,
 }
 
 main h3 {
-  margin-top: 2rem;
-  margin-bottom: 0.85rem;
+  margin-top: 1.45rem;
+  margin-bottom: 0.6rem;
   font-size: 1.35rem;
   letter-spacing: -0.02em;
 }
@@ -408,4 +408,37 @@ main h3 {
   .paper-figure {
     padding: 0.85rem;
   }
+}
+
+
+/* More compact academic-page spacing */
+.section-panel-inner > h2:first-child {
+  margin-top: 0;
+}
+
+.section-panel-inner > h2 {
+  margin-bottom: 1.2rem;
+}
+
+main p {
+  margin-top: 0.78em;
+  margin-bottom: 0.78em;
+}
+
+main ul,
+main ol {
+  margin-top: 0.7em;
+  margin-bottom: 0.9em;
+}
+
+main h3 + p,
+main h2 + p {
+  margin-top: 0.55em;
+}
+
+main figure + h3,
+main p + h3,
+main ul + h3,
+main ol + h3 {
+  margin-top: 1.45rem;
 }
