@@ -443,3 +443,12 @@ main ul + h3,
 main ol + h3 {
   margin-top: 1.45rem;
 }
+
+
+/* Justify text throughout the paper sections */
+.section-panel-inner p,
+.section-panel-inner li,
+.paper-figure figcaption {
+  text-align: justify;
+  text-justify: inter-word;
+}
