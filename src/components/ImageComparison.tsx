@@ -43,6 +43,7 @@ export default function ImageComparison({ ctSrc, cbctSrc, sctSrc }: Props) {
             )}
             <span className="comparison-label comparison-label-left">
               Reference CT
+              PSNR (dB)/SSIM
             </span>
           </div>
         </div>
@@ -58,6 +59,7 @@ export default function ImageComparison({ ctSrc, cbctSrc, sctSrc }: Props) {
                 />
                 <span className="comparison-label comparison-label-left">
                   EPC-3D-Diff sCT
+                  43.12 / 0.99
                 </span>
               </div>
             }
@@ -68,7 +70,8 @@ export default function ImageComparison({ ctSrc, cbctSrc, sctSrc }: Props) {
                   alt="Input CBCT axial slice"
                 />
                 <span className="comparison-label comparison-label-right">
-                  CBCT input
+                  CBCT input 
+                  14.68 / 0.25
                 </span>
               </div>
             }
