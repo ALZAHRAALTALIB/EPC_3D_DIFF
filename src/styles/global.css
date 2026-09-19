@@ -452,3 +452,100 @@ main ol + h3 {
   text-align: justify;
   text-justify: inter-word;
 }
+
+
+/* EPC-3D-Diff compact reference-CT comparison */
+.comparison-shell-compact {
+  max-width: 58rem;
+  padding: 1rem;
+}
+
+.result-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.reference-ct-card,
+.comparison-stage-small {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #000;
+}
+
+.reference-ct-card .comparison-image-wrap,
+.comparison-stage-small {
+  aspect-ratio: 1 / 1;
+}
+
+.reference-ct-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reference-ct-placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 18rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 45%, rgb(16 185 129 / 0.13), transparent 45%),
+    #0b1512;
+  color: #d1fae5;
+}
+
+.reference-ct-placeholder strong {
+  font-size: 1.15rem;
+}
+
+.reference-ct-placeholder span {
+  color: rgb(209 250 229 / 0.75);
+  font-size: 0.85rem;
+}
+
+.reference-ct-placeholder code {
+  margin-top: 0.2rem;
+  border-radius: 0.45rem;
+  background: rgb(6 78 59 / 0.55);
+  padding: 0.3rem 0.5rem;
+  color: #ecfdf5;
+  font-size: 0.72rem;
+}
+
+.comparison-shell-compact .comparison-header {
+  padding-bottom: 0.8rem;
+}
+
+.comparison-shell-compact .comparison-header h3 {
+  font-size: 1.3rem;
+}
+
+.comparison-shell-compact .comparison-help {
+  max-width: 29rem;
+  font-size: 0.88rem;
+}
+
+.comparison-shell-compact .comparison-caption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .result-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-shell-compact {
+    max-width: 32rem;
+  }
+}
