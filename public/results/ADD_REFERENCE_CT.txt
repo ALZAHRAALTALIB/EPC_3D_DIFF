@@ -1,5 +1,0 @@
-Add the paired reference CT image for the interactive result here as:
-ct_237.png
-
-The page is already configured to use public/results/ct_237.png.
-Do not substitute the sCT or CBCT image for the reference CT.
