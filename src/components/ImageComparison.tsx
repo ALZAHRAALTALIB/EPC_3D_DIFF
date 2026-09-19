@@ -42,8 +42,8 @@ export default function ImageComparison({ ctSrc, cbctSrc, sctSrc }: Props) {
               </div>
             )}
             <span className="comparison-label comparison-label-left">
-              Reference CT
-              PSNR (dB)/SSIM
+              <span>Reference CT</span>
+              <span>PSNR (dB) / SSIM</span>
             </span>
           </div>
         </div>
