@@ -79,9 +79,6 @@ CT provides the anatomical and electron density information required for radioth
 
 EPC-3D-Diff addresses this CBCT to CT synthesis problem by combining **3D latent conditional diffusion** with a **physics consistent projection domain equivariance loss**. The resulting framework is designed to improve anatomical fidelity, HU accuracy, and robustness across data domains and scanner settings.
 
-<TwoColumns>
-<Fragment slot="left">
-
 ### Main contributions
 
 - Conditional **3D latent diffusion** for volumetric CBCT to CT synthesis.
@@ -89,15 +86,9 @@ EPC-3D-Diff addresses this CBCT to CT synthesis problem by combining **3D latent
 - Training that leverages CT forward operators while keeping **test time inference operator free**.
 - Validation on both **phantom** and **clinical** head and neck CBCT/CT data.
 
-</Fragment>
-<Fragment slot="right">
-
 ### Key insight
 
 For circular acquisition geometry, an **in plane rotation** of the synthesized CT corresponds to an **angular shift** in projection space. EPC-3D-Diff enforces this relationship during training, so the model learns not only to match CT appearance in image space, but also to remain consistent with the underlying acquisition physics.
-
-</Fragment>
-</TwoColumns>
 
 </SectionPanel>
 
