@@ -58,8 +58,8 @@ export default function ImageComparison({ ctSrc, cbctSrc, sctSrc }: Props) {
                   alt="EPC-3D-Diff synthetic CT axial slice"
                 />
                 <span className="comparison-label comparison-label-left">
-                  EPC-3D-Diff sCT
-                  43.12 / 0.99
+                  <span>EPC-3D-Diff sCT</span>
+                  <span>43.12 / 0.99</span>
                 </span>
               </div>
             }
@@ -70,8 +70,8 @@ export default function ImageComparison({ ctSrc, cbctSrc, sctSrc }: Props) {
                   alt="Input CBCT axial slice"
                 />
                 <span className="comparison-label comparison-label-right">
-                  CBCT input 
-                  14.68 / 0.25
+                  <span>CBCT input</span> 
+                  <span>14.68 / 0.25</span>
                 </span>
               </div>
             }
